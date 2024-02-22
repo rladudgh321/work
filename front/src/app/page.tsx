@@ -7,9 +7,11 @@ export default function Home() {
   return (
     <>
       <Basic_info />
-      <FAQ_list />
-      <Comment_list />
-      <Board_list />
+      <div className="md:grid grid-cols-2 gap-4 m-4">
+        <FAQ_list />
+        <Comment_list />
+        <Board_list />
+      </div>
     </>
   );
 }

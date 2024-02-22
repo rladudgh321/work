@@ -66,6 +66,13 @@ const data: DataType[] = [
 export default function FAQ_list() {
   return (
     <div>
+      <div className="flex justify-between">
+        <div className="flex">
+          <div>로고</div>
+          <div>최근 문의내역 현황</div>
+        </div>
+        <Button>더보기</Button>
+      </div>
       <Table columns={columns} dataSource={data} pagination={false} />
     </div>
   );
