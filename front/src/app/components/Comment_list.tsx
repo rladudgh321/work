@@ -1,5 +1,6 @@
 import type { TableProps } from 'antd';
 import { Button, Table } from 'antd';
+import { BiCommentDetail } from "react-icons/bi";
 
 interface DataType {
   key: string;
@@ -48,7 +49,7 @@ export default function Comment_list() {
     <div>
       <div className="flex justify-between">
         <div className="flex">
-          <div>로고</div>
+          <div className="my-auto mr-2"><BiCommentDetail /></div>
           <div>최근 댓글 현황</div>
         </div>
         <Button>더보기</Button>

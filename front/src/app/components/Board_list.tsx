@@ -1,5 +1,6 @@
 import type { TableProps } from 'antd';
 import { Button, Table } from 'antd';
+import { PiClipboardTextBold } from "react-icons/pi";
 
 interface DataType {
   key: string;
@@ -48,7 +49,7 @@ export default function Board_list() {
     <div>
       <div className="flex justify-between">
         <div className="flex">
-          <div>로고</div>
+          <div className="my-auto mr-2"><PiClipboardTextBold /></div>
           <div>최근 게시글 등록현황</div>
         </div>
         <Button>더보기</Button>
