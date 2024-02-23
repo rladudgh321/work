@@ -1,9 +1,7 @@
-'use client'
-
 import { SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, ConfigProvider, Menu } from 'antd';
-import React, { useState } from 'react';
+import Link from 'next/link';
 
 const items: MenuProps['items']= [
   {
@@ -16,11 +14,11 @@ const items: MenuProps['items']= [
         label: '기본 환경설정',
         children: [
           {
-            label: '기본환경 설정',
+            label: <Link href={'setting_site'}>기본 환경설정</Link>,
             key: 'master_1',
           },
           {
-            label: '지도 API 설정',
+            label: <Link href={'map_API_KEY'}>지도 API 설정</Link>,
             key: 'master_2',
           },
           {
@@ -54,15 +52,15 @@ const items: MenuProps['items']= [
         children: [
           {
             label: '실시간검색어 설정',
-            key: 'marster_a',
+            key: 'search_a',
           },
           {
             label: '차단단어 설정',
-            key: 'marster_b',
+            key: 'search_b',
           },
           {
             label: '네이버 검색 API 설정',
-            key: 'marster_3',
+            key: 'search_3',
           },
         ],
       },
@@ -266,13 +264,13 @@ const items: MenuProps['items']= [
   },
 ];
 
-const Navbar: React.FC = () => {
-  const [current, setCurrent] = useState<string>("");
+export default function Navbar() {
+  // const [current, setCurrent] = useState<string>("");
 
-  const onClick: MenuProps['onClick'] = (e) => {
-    console.log('Navbar', e);
-    setCurrent(e.key);
-  };
+  // const onClick: MenuProps['onClick'] = (e) => {
+  //   console.log('Navbar', e);
+  //   setCurrent(e.key);
+  // };
 
   return (
     <div>
@@ -293,11 +291,10 @@ const Navbar: React.FC = () => {
             },
           }}
         >
-          <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} className="w-10/12" />
+          {/* <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} className="w-10/12" /> */}
+          <Menu mode="horizontal" items={items} className="w-10/12" />
         </ConfigProvider>
       </div>
     </div>
   );
 };
-
-export default Navbar;

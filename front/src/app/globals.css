@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.btn {
+  @apply bg-gray-600 text-gray-50 w-8/12 h-12
+}
