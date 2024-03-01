@@ -1,0 +1,71 @@
+function FlashMainbody(Ftrans,wid,hei) {
+	
+	mainbody = "<embed src='"+ Ftrans +"' quality='high' scale='noscale' salign='lt' align='top' wmode='Transparent' align='middle' pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash' width='"+ wid +"' height='"+ hei +"' wmode='Transparent'></embed>"
+
+
+	//document.body.innerHTML = mainbody;
+	document.write(mainbody);
+	return;
+}
+
+function FlashMainNon(Ftrans,wid,hei) {
+	
+	mainbody = "<embed src='"+ Ftrans +"' quality='high' salign='lt' align='top' wmode='Transparent' pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash' width='"+ wid +"' height='"+ hei +"' wmode='Transparent'></embed>"
+	
+
+	//document.body.innerHTML = mainbody;
+	document.write(mainbody);
+	return;
+}
+
+function call_subflash(Ftrans,wid,hei) {
+	
+	mainbody = "<embed src='"+ Ftrans +"' quality='high' scale='noscale' salign='lt' align='top' wmode='Transparent' align='middle' pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash' width='"+ wid +"' height='"+ hei +"' wmode='Transparent'></embed>"
+	
+
+	document.getElementById('subflash_layer').innerHTML	= mainbody;
+	return;
+}
+
+
+
+function flash_movie_add(Ftrans,wid,hei,uid) {
+	
+	mainbody = "<embed src='"+ Ftrans +"' quality='high' scale='noscale' salign='lt' align='top' wmode='Transparent' align='middle' pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash' width='"+ wid +"' height='"+ hei +"' wmode='Transparent'></embed>"
+	
+
+	document.getElementById(uid).innerHTML	= mainbody;
+	return;
+}
+
+
+
+function FlashXmlbody(Ftrans,wid,hei) {
+
+ mainbody = "<embed src='"+ Ftrans +"' quality='high' align='middle' pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash' width='"+ wid +"' height='"+ hei +"' wmode='Transparent'></embed>"
+
+
+ document.write(mainbody);
+ return;
+}
+
+
+//<SCRIPT LANGUAGE="JavaScript">FlashMainbody("img/banner.swf","680","140",'Transparent');</SCRIPT>
+
+//날씨 쿠키
+function setCookie( name, value, expiredays )
+{
+var todayDate = new Date();
+todayDate.setDate( todayDate.getDate() + expiredays );
+document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
+
+function weather_change(str)
+{
+	name = 'g_city';
+	value = str;
+	expiredays = 365;
+
+	setCookie( name, value, expiredays );
+}
+//날씨 쿠키

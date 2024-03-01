@@ -14,27 +14,27 @@ const items: MenuProps['items']= [
         label: '기본 환경설정',
         children: [
           {
-            label: <Link href={'setting_site'}>기본 환경설정</Link>,
+            label: <Link href={'/admin/master-setting/setting_site'}>기본 환경설정</Link>,
             key: 'master_1',
           },
           {
-            label: <Link href={'map_API_KEY'}>지도 API 설정</Link>,
+            label: <Link href={'/admin/master-setting/map_API_KEY'}>지도 API 설정</Link>,
             key: 'master_2',
           },
           {
-            label: '네이버톡톡 설정',
+            label: <Link href={'/admin/master-setting/naver_taktak'}>네이버톡톡 설정</Link>,
             key: 'master_3',
           },
           {
-            label: '관련사이트 설정',
+            label: <Link href={'/admin/master-setting/about-site'}>관련사이트 설정</Link>,
             key: 'master_4',
           },
           {
-            label: '날씨환경설정',
+            label: <Link href={'/admin/master-setting/weather-setting'}>날씨환경설정</Link>,
             key: 'master_5',
           },
           {
-            label: '기본메타태그 관리',
+            label: <Link href={'/admin/master-setting/meta-tag'}>기본메타태그 관리</Link>,
             key: 'master_6',
           },
         ],
@@ -51,15 +51,15 @@ const items: MenuProps['items']= [
         label: '검색 관련 설정',
         children: [
           {
-            label: '실시간검색어 설정',
+            label: <Link href={'/admin/searching-setting/realtime'}>실시간검색어 설정</Link>,
             key: 'search_a',
           },
           {
-            label: '차단단어 설정',
+            label: <Link href={'/admin/searching-setting/forbidden'}>차단단어 설정</Link>,
             key: 'search_b',
           },
           {
-            label: '네이버 검색 API 설정',
+            label: <Link href={'/admin/searching-setting/naver-search-api'}>네이버 검색 API 설정</Link>,
             key: 'search_3',
           },
         ],
@@ -67,7 +67,7 @@ const items: MenuProps['items']= [
     ],
   },
   {
-    label: '메뉴설정',
+    label: <Link href={'/admin/menu-setting'}>메뉴설정</Link>,
     key: 'menu',
     icon: <SettingOutlined />,
   },

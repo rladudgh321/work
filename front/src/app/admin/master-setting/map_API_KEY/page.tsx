@@ -2,7 +2,7 @@
 
 import { Button, Form } from "antd";
 import { useForm } from 'react-hook-form';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 interface Inputs {
   kakao_local_map?: string;
@@ -14,11 +14,11 @@ interface Inputs {
   google?: string;
 }
 
-export default function map_API_KEY() {
+export default function MapAPIKEY() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
   return (
-    <Form onFinish={handleSubmit(async(data) => {
+    <Form onFinish={handleSubmit(async(data: any) => {
       try {
         console.log({ data });
         toast.success('생성 성공')
@@ -27,14 +27,14 @@ export default function map_API_KEY() {
         toast.error('데이터 저장 오류입니다. 다시 시도해주세요')
       }
     })}>
-      <div className="md:max-w-2xl mx-auto">
+      <div className="md:max-w-4xl mx-auto mt-10">
         <fieldset className="border-slate-600 border-[1px] p-4" >
           <legend className="text-center p-2">지도API설정</legend>
           <div>네이버와 다음지도 구글지도 중에 선택해서 설정할 수 있습니다</div>
         </fieldset>
         <div>
           {/* border-slate-600 border-[1px] */}
-          <div className="border border-slate-600">
+          <div className="border border-slate-600 mt-10">
             <div className="flex mt-10">
               <div className="w-48">나의 지도 선택</div>
               <div>

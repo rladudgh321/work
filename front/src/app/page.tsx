@@ -1,23 +1,15 @@
-import Basic_info from './components/Basic_info';
-import Board_list from './components/Board_list';
-import Comment_list from './components/Comment_list';
-import FAQ_list from './components/FAQ_list';
+import Link from "next/link";
 
 export default function Home() {
   return (
     <>
-      <Basic_info />
-      <div className="lg:grid grid-cols-2 gap-4 m-4 mt-20">
-        <div className="mt-10">
-          <FAQ_list />
-        </div>
-        <div className="mt-10">
-          <Comment_list />
-        </div>
-        <div className="mt-10">
-          <Board_list />
-        </div>
-      </div>
+      <div>Home</div>
+      <Link href='/'>준비중</Link>
+      <br />
+      <br />
+      <br />
+
+      <Link href={'admin'}>관리자 홈페이지 가기</Link>
     </>
   );
 }

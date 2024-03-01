@@ -1,0 +1,651 @@
+var offsetxpoint=-60 //Customize x offset of tooltip
+var offsetypoint=20 //Customize y offset of tooltip
+var ie=document.all
+var ns6=document.getElementById && !document.all
+var enabletip=false
+if (ie||ns6)
+var tipobj=document.all? document.all["dhtmltooltip"] : document.getElementById? document.getElementById("dhtmltooltip") : ""
+
+function ietruebody(){
+return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+}
+
+function ddrivetip(thetext, thecolor, thewidth){
+if (ns6||ie){
+if (typeof thewidth!="undefined") tipobj.style.width=thewidth+"px"
+if (typeof thecolor!="undefined" && thecolor!="") tipobj.style.backgroundColor=thecolor
+tipobj.innerHTML=thetext
+enabletip=true
+return false
+}
+}
+
+function positiontip(e){
+if (enabletip){
+var curX=(ns6)?e.pageX : event.x+ietruebody().scrollLeft;
+var curY=(ns6)?e.pageY : event.y+ietruebody().scrollTop;
+//Find out how close the mouse is to the corner of the window
+var rightedge=ie&&!window.opera? ietruebody().clientWidth-event.clientX-offsetxpoint : window.innerWidth-e.clientX-offsetxpoint-20
+var bottomedge=ie&&!window.opera? ietruebody().clientHeight-event.clientY-offsetypoint : window.innerHeight-e.clientY-offsetypoint-20
+
+var leftedge=(offsetxpoint<0)? offsetxpoint*(-1) : -1000
+
+//if the horizontal distance isn't enough to accomodate the width of the context menu
+if (rightedge<tipobj.offsetWidth)
+//move the horizontal position of the menu to the left by it's width
+tipobj.style.left=ie? ietruebody().scrollLeft+event.clientX-tipobj.offsetWidth+"px" : window.pageXOffset+e.clientX-tipobj.offsetWidth+"px"
+else if (curX<leftedge)
+tipobj.style.left="5px"
+else
+//position the horizontal position of the menu where the mouse is positioned
+tipobj.style.left=curX+offsetxpoint+"px"
+
+//same concept with the vertical position
+if (bottomedge<tipobj.offsetHeight)
+tipobj.style.top=ie? ietruebody().scrollTop+event.clientY-tipobj.offsetHeight-offsetypoint+"px" : window.pageYOffset+e.clientY-tipobj.offsetHeight-offsetypoint+"px"
+else
+tipobj.style.top=curY+offsetypoint+"px"
+tipobj.style.visibility="visible"
+}
+}
+
+function Marq(kind){
+	switch(kind) {
+	case 1:
+	mq_notice.stop();
+	break;
+	}
+	switch(kind) {
+	case 2:
+	mq_notice.start();
+	break;
+	}
+}
+
+
+
+function hideddrivetip(){
+if (ns6||ie){
+enabletip=false
+tipobj.style.visibility="hidden"
+tipobj.style.left="-1000px"
+tipobj.style.backgroundColor=''
+tipobj.style.width=''
+}
+}
+document.onmousemove=positiontip
+
+
+
+
+var prev_divid		= "";
+var prev_formCount	= "";
+var prev_mode		= "";
+
+function GoWrite( divid, mode, name, title, content, Count, Msg )
+{
+
+	chk	= mode +"_"+ Count;
+	if ( prev_divid != "" && prev_mode != chk )
+	{
+		document.getElementById(prev_divid).style.display = "none";
+		var prev_frm = document.forms["reply_frm_"+prev_formCount];
+		prev_frm.mode.value		= "";
+		prev_frm.name.value		= "";
+		prev_frm.content.value	= "";
+	}
+	prev_divid			= divid;
+	prev_formCount		= Count;
+	prev_mode			= mode +"_"+ Count;
+
+
+
+	var chk = document.getElementById(divid).style.display;
+	chk = ( chk == '' )?'none':'';
+	document.getElementById(divid).style.display = chk;
+
+	var frm =document.forms["reply_frm_"+Count];
+	frm.mode.value		= mode;
+	frm.name.value		= name;
+	frm.content.value	= content;
+
+	field_space_check2("reply_frm_"+prev_formCount, 'name','','','black');
+	field_space_check2("reply_frm_"+prev_formCount, 'content','','','black');
+	//frm.sendit.value	= Msg;
+
+
+}
+
+var prev_replyDiv	= "";
+function ShowReply( replyDiv )
+{
+	if ( prev_replyDiv != replyDiv && prev_replyDiv != "" )
+	{
+		document.getElementById(prev_replyDiv).style.display = "none";
+	}
+	prev_replyDiv	= replyDiv;
+
+	var chk	= document.getElementById(replyDiv).style.display;
+	chk = ( chk == '' )?'none':'';
+	document.getElementById(replyDiv).style.display = chk;
+}
+
+function ReplyDelete(number)
+{
+	if ( confirm("정말 삭제하시겠습니까?" ) )
+	{
+		alert("알겟다");
+	}
+}
+
+function login()
+{
+	link	= window.location.href;
+
+	window.location.href = "/happy_member_login.php?returnUrl="+link;
+}
+
+
+//이미지체인지
+var prevImg  = new Array();
+prevImg[0]  = "img_1";
+prevImg[1]  = "img_2";
+prevImg[2]  = "img_3";
+prevImg[3]  = "img_4";
+prevImg[4]  = "img_5";
+prevImg[5]  = "img_6";
+prevImg[6]  = "img_7";
+prevImg[7]  = "img_8";
+prevImg[8]  = "img_9";
+prevImg[9]  = "img_10";
+
+/*
+var prevLayer = new Array();
+prevLayer[0] = "layer_1";
+prevLayer[1] = "layer_2";
+prevLayer[2] = "layer_3";
+prevLayer[3] = "layer_4";
+prevLayer[4] = "layer_5";
+prevLayer[5] = "layer_6";
+prevLayer[6] = "layer_7";
+prevLayer[7] = "layer_8";
+prevLayer[8] = "layer_9";
+prevLayer[9] = "layer_10";
+
+
+var prev_menuLayer = new Array();
+prev_menuLayer[0] = "menu_layer_1";
+prev_menuLayer[1] = "menu_layer_2";
+prev_menuLayer[2] = "menu_layer_3";
+prev_menuLayer[3] = "menu_layer_4";
+prev_menuLayer[4] = "menu_layer_5";
+prev_menuLayer[5] = "menu_layer_6";
+prev_menuLayer[6] = "menu_layer_7";
+prev_menuLayer[7] = "menu_layer_8";
+prev_menuLayer[8] = "menu_layer_9";
+prev_menuLayer[9] = "menu_layer_10";
+*/
+
+var prevLayer = new Array();
+var prev_menuLayer = new Array();
+for (i=0,j=1;i<20 ;i++,j++ )
+{
+	prevLayer[i] = "layer_"+j;
+	prev_menuLayer[i] = "menu_layer_"+j;
+}
+
+
+function viewLayer(nowLayer,no)
+{
+	document.getElementById(prevLayer[no]).style.display = "none";
+	document.getElementById(nowLayer).style.display = "";
+	prevLayer[no] = nowLayer;
+}
+
+function menu_viewLayer(now_menu_Layer,no,menu_bgcolor,menu_font_color)
+{
+	document.getElementById(prev_menuLayer[no]).style.backgroundColor = "";
+	document.getElementById(now_menu_Layer).style.backgroundColor = menu_bgcolor;
+	document.getElementById(now_menu_Layer).style.color = menu_font_color;
+
+	if ( prev_menuLayer[no] != now_menu_Layer )
+	{
+		document.getElementById(prev_menuLayer[no]).style.color = '#FFFFFF';
+	}
+
+	prev_menuLayer[no] = now_menu_Layer;
+}
+
+
+function changeImg(nowImg,no)
+{
+	if ( nowImg != prevImg[no] )
+	{
+		if ( prevImg[no] != "" )
+		{
+		prevImgSrc = document.getElementById(prevImg[no]).src.replace("_on.gif",".gif");
+		document.getElementById(prevImg[no]).src = prevImgSrc.replace(".gif","_off.gif");
+		}
+	nowImgSrc = document.getElementById(nowImg).src.replace("_off.gif",".gif");
+
+	document.getElementById(nowImg).src = nowImgSrc.replace(".gif","_on.gif");
+	prevImg[no] = nowImg;
+	}
+}
+
+
+function FlashXmlbody(Ftrans,wid,hei) {
+
+ mainbody = "<embed src='"+ Ftrans +"' quality='high' align='middle' pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash' width='"+ wid +"' height='"+ hei +"' wmode='Transparent'></embed>"
+
+
+ document.write(mainbody);
+ return;
+}
+
+function messageReloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=messageReloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+messageReloadPage(true);
+
+function messageFindObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=messageFindObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+
+function messageShowHideLayer() { // MM_showHideLayersv6.0 함수 이름만 변경 (충돌방지)
+	var i,p,v,obj,args=messageShowHideLayer.arguments;
+	for (i=0; i<(args.length-2); i+=3)
+	{
+		if ((obj=messageFindObj(args[i]))!=null) {
+			v=args[i+2];
+			if (obj.style) {
+				obj=obj.style;
+				v=(v=='show')?'visible':(v=='hide')?'hidden':v;
+			}
+
+			obj.visibility=v;
+			if ( v == 'hide' || v == 'hidden' )
+			{
+				obj.left	= -555;
+				obj.top		= -555;
+			}
+			else
+			{
+				happyMessageLayerCheck	= true;
+				obj.left	= event.x + ietruebody().scrollLeft - 0 ;
+				obj.top		= event.y + ietruebody().scrollTop - 0;
+			}
+		}
+	}
+}
+
+
+var Before_Laver_Number = '';
+function messageShowUser( layer_number )
+{
+	Obj = document.getElementById("board_view_" + layer_number);
+	if ( Obj.style.display == "none" )
+	{
+		if ( document.getElementById("board_view_" + Before_Laver_Number) != undefined )
+		{
+			document.getElementById("board_view_" + Before_Laver_Number).style.display = "none";
+		}
+
+		Obj.style.display	= '';
+	}
+	else
+	{
+		Obj.style.display	= 'none';
+	}
+
+	Before_Laver_Number = layer_number;
+	dhtml_display = false;
+}
+
+
+
+
+//새 윈도우창 띄우기
+function open_window(name, url, left, top, width, height, toolbar, menubar, statusbar, scrollbar, resizable){
+	toolbar_str = toolbar ? 'yes' : 'no';
+	menubar_str = menubar ? 'yes' : 'no';
+	statusbar_str = statusbar ? 'yes' : 'no';
+	scrollbar_str = scrollbar ? 'yes' : 'no';
+	resizable_str = resizable ? 'yes' : 'no';
+	window.open(url, name, 'left='+left+',top='+top+',width='+width+',height='+height+',toolbar='+toolbar_str+',menubar='+menubar_str+',status='+statusbar_str+',scrollbars='+scrollbar_str+',resizable='+resizable_str);
+}
+
+
+dal1 = new Image()
+var dal = new Image();
+function view_img(bi,dalai){
+	var wid;
+	var hei;
+	wid = '815'; w= '815'		;
+	hei = '760'; h = '760'
+	if (ie)  window.open(bi,'detail_popup','width='+wid+',height='+hei+',resizable=1,top=50,left=50');
+	else window.open(bi,'detail_popup','width='+w+',height='+h+',resizable=1');
+}
+
+
+//PNG알파 IE적용
+function setPng24(obj) {
+    obj.width=obj.height=1;
+    obj.className=obj.className.replace(/\bpng24\b/i,'');
+	//alert(obj.src);
+    obj.style.filter =
+    "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+ obj.src +"',sizingMethod='image');"
+    //obj.src='';
+    return '';
+}
+
+function field_space_check( objId , fieldCheck , outText , outColor)
+{
+ var obj  = document.getElementById(objId);
+
+ objValue = obj.value;
+
+ if ( objValue == fieldCheck )
+ {
+  obj.value  = outText;
+  obj.style.color = outColor;
+ }
+}
+
+
+function field_space_check2( form, objId , fieldCheck , outText , outColor)
+{
+ var obj  = eval( 'document.'+ form +'.'+ objId );
+
+ objValue = obj.value;
+
+
+ if ( objValue == fieldCheck )
+ {
+  obj.value  = outText;
+  obj.style.color = outColor;
+ }
+}
+
+function objectTAG(name,file,width,height,wmode,bgcolor) {
+	document.write('\
+<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="'+width+'" height="'+height+'" id="'+name+'" align="middle">\
+<param name="allowScriptAccess" value="sameDomain">\
+<param name="movie" value="'+file+'">\
+<param name="quality" value="high">\
+<param name="wmode" value="'+wmode+'">\
+<param name="bgcolor" value="'+bgcolor+'">\
+<embed src="'+file+'" quality="high" wmode="'+wmode+'" bgcolor="'+bgcolor+'" width="'+width+'" height="'+height+'" name="'+name+'" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">\
+</object>\
+	');
+}
+
+
+
+
+//마이페이지 팝업메뉴 (플래시 구글날씨 Z-Index 때문에 추가)
+function divZindexOver(num){
+	var div = document.getElementById('mypage_popup_menu');
+	div.style.zIndex = num;
+	//window.alert(num);
+}
+function divZindexOut(num){
+	var div = document.getElementById('mypage_popup_menu');
+	div.style.zIndex = num;
+	//window.alert(num);
+}
+
+
+
+
+//자바스크립트 새창
+function popupWindow(url) {
+	var openNewWindow = window.open("about:blank");
+	openNewWindow.location.href = url;
+}
+
+
+//카테고리 메뉴 토글뷰
+var i = 0;
+function menuView(){
+
+	var menu = document.getElementById('category_menu');
+	var print = document.getElementById('print');
+
+	i++;
+
+	if(i < 50){
+		if(i%2 == 1) {
+			menu.style.height = '280px';
+		}else{
+			menu.style.height = '32px';
+		}
+	}else{
+		i = 0;
+	}
+	//print.innerHTML = "["+ i + "]";
+}
+
+
+function resizeFrame(iframe)
+{
+	obj_frm					= parent.document.getElementById(iframe);
+
+	if ( obj_frm != undefined )
+	{
+		frm_height				= document.body.offsetHeight;
+
+		obj_frm.style.height	= frm_height + "px";
+	}
+}
+
+
+
+function addLoadEvent(func)
+{
+	var oldonload = window.onload;
+
+	if ( typeof window.onload != 'function' )
+	{
+		window.onload = func;
+	}
+	else
+	{
+		window.onload = function()
+		{
+			oldonload();
+			func();
+		}
+	}
+}
+
+
+function detail_resizeFrame(iframe)
+{
+	var Frame_Body  = document.frames(iframe).document.body;
+	var Frame_name  = document.all(iframe);
+
+	Frame_name.style.width
+			= Frame_Body.scrollWidth + (Frame_Body.offsetWidth-Frame_Body.clientWidth);
+	Frame_name.style.height
+			= Frame_Body.scrollHeight + (Frame_Body.offsetHeight-Frame_Body.clientHeight);
+
+	if (Frame_name.style.height == "0px" || Frame_name.style.width == "0px")
+	{
+		Frame_name.style.width = "100%";       //기본 iframe 너비
+		Frame_name.style.height = "330px";      //기본 iframe 높이
+		//window.status = 'iframe resizing fail.';
+	}
+}
+
+
+// 메세지 바이트 체크
+function chkMsgLength(intMax,objMsg)
+{
+	var length = lengthMsg(objMsg.value);
+
+
+	if (length > intMax)
+	{
+		alert("80byte 를 초과하셨습니다.\n");
+		objMsg.value = objMsg.value.replace(/\r\n$/, "");
+		objMsg.value = assertMsg(intMax,objMsg.value);
+	}
+}
+
+
+
+
+// 현재 메시지 바이트 수 계산
+function lengthMsg(objMsg)
+{
+
+	var nbytes = 0;
+	for (i=0; i<objMsg.length; i++)
+	{
+		var ch = objMsg.charAt(i);
+		if(escape(ch).length > 4)
+		{
+			nbytes += 2;
+		}
+		else if (ch == '\n')
+		{
+			if (objMsg.charAt(i-1) != '\r')
+			{
+				nbytes += 1;
+			}
+		}
+		else if (ch == '<' || ch == '>')
+		{
+			nbytes += 4;
+		}
+		else
+		{
+			nbytes += 1;
+		}
+	}
+	return nbytes;
+}
+
+// 80 바이트 넘는 문자열 자르기
+function assertMsg(intMax, objMsg)
+{
+	var inc = 0;
+	var nbytes = 0;
+	var msg = "";
+
+	var msglen = objMsg.length;
+
+	for (i=0; i < msglen; i++)
+	{
+		var ch = objMsg.charAt(i);
+
+		if (escape(ch).length > 4)
+		{
+			inc = 2;
+		}
+		else if (ch == '\n')
+		{
+			if (objMsg.charAt(i-1) != '\r')
+			{
+				inc = 1;
+			}
+		}
+		else if (ch == '<' || ch == '>')
+		{
+			inc = 4;
+		}
+		else
+		{
+			inc = 1;
+		}
+
+		if ((nbytes + inc) > intMax)
+		{
+			break;
+		}
+
+		nbytes += inc;
+		msg += ch;
+	}
+
+
+
+	return msg;
+}
+
+
+
+
+
+
+
+
+// 면적단위계산 - 2015-04-06 - x2chi
+function go_change_area(i)
+{
+	if ( i.length == 0)
+	{
+		alert('변환할 평형을 입력해주세요.');
+		return 0;
+	}
+	return Math.round( (i * 3.305) * 100 ) / 100;
+}
+
+
+function add_bookmark_click()
+{
+	try
+	{
+		window.external.AddFavorite(parent.location.href, document.title);
+	}
+	catch (e)
+	{
+		alert("Ctrl+D 키를 누르면 즐겨찾기에 추가하실수 있습니다.");
+	}
+}
+
+// 카카오 알림톡 템플릿찾기 버튼 스크립트 - hong
+function kakao_template_find(url,msg_name,code_name,var_type)
+{
+	if ( !url )
+	{
+		alert('URL 누락');
+		return;
+	}
+
+	if ( !msg_name )
+	{
+		alert('SMS 발송내용 입력부분 NAME 누락');
+		return;
+	}
+
+	if ( !code_name )
+	{
+		alert('카카오 알림톡 템플릿코드 입력부분 NAME 누락');
+		return;
+	}
+
+	var_type	= ( var_type ) ? var_type : "type1";
+
+	url			+= "&msg_name=" + encodeURIComponent(msg_name);
+	url			+= "&code_name=" + encodeURIComponent(code_name);
+	url			+= "&var_type=" + var_type;
+
+	var name	= "popup_kakao_template_list";
+	var opt		= "width=700,height=800,scrollbars=yes";
+
+	var obj		= window.open(url,name,opt);
+
+	if ( obj )
+	{
+		obj.focus();
+	}
+}

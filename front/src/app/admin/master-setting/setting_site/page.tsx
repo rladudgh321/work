@@ -1,6 +1,6 @@
 import { Button, Form, Input } from 'antd';
 
-export default function Setting_site() {
+export default function SettingSite() {
   return (
     <aside className="md:max-w-2xl mx-auto mt-10">
       <fieldset className="border-slate-600 border-[1px] p-4" >

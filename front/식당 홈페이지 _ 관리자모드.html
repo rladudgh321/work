@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>식당 홈페이지 : 관리자모드 </title>
+<meta http-equiv="imagetoolbar" content="no">
+<link rel="stylesheet" style="text/css" href="./식당 홈페이지 _ 관리자모드_files/style.css">
+
+<script>
+	happy_schedule_sub_admin	= "";
+	happy_schedule_sub_root		= "";
+</script>
+
+<script language="JavaScript" src="./식당 홈페이지 _ 관리자모드_files/searchWord.js.다운로드" type="text/javascript"></script>
+<script language="JavaScript" src="./식당 홈페이지 _ 관리자모드_files/flash.js.다운로드" type="text/javascript"></script>
+<script language="JavaScript" src="./식당 홈페이지 _ 관리자모드_files/ajax.js.다운로드" type="text/javascript"></script>
+<!-- <script language='JavaScript' src='../../js/jquery-1.9.1.min.js' type='text/javascript'></script> -->
+
+<script type="text/javascript" src="./식당 홈페이지 _ 관리자모드_files/ap.js.다운로드"></script>
+<link href="./식당 홈페이지 _ 관리자모드_files/ap.css" rel="stylesheet" type="text/css">
+
+
+<script language="JavaScript">
+	function OpenWindow(url,intWidth,intHeight)
+	{
+		window.open(url, "_blank", "width="+intWidth+",height="+intHeight+",resizable=1,scrollbars=1");
+	}
+
+	//모든 링크포커스없애기 (A, IMG)
+	function bluring()
+	{
+		if(event.srcElement.tagName=="A"||event.srcElement.tagName=="IMG")
+			document.body.focus();
+	}
+	document.onfocusin=bluring;
+
+	//관리자페이지 링크주소들
+	function admin_link(str)
+	{
+		switch(str)
+		{
+			case "home": document.location.href="main.php";							break;	//관리자메인
+		}
+	}
+
+	//관리자페이지 최상단 버튼 링크주소
+	function admin_top_btn(str)
+	{
+		switch (str)
+		{
+			case "main" : window.open('about:blank').location.href="http://foodf.cgimall.co.kr/";					break;	//사이트메인 이동버튼
+			case "conf" : document.location.href="happy_config.php";				break;	//관리자 환경설정
+			//case "manual" : document.location.href="javascript:OpenWindow('http://cgimall.co.kr/xml_manual/manual_main.php?db_name=manual_pensions','980','680')"; break;	//메뉴얼버튼
+			case "logout" : document.location.href="index.php?mode=logout";			break;	//로그아웃버튼
+		}
+	}
+
+	//관리자메뉴별 링크주소
+	function admin_menu(num) {
+		switch(num){
+			case 1:document.location.href="setting_site.php";						break;
+			case 2:document.location.href="happy_menu.php?skin=skin1";							break;
+			case 3:document.location.href="skin_design_simple.php";						break;
+			case 4:document.location.href="bbs.php?mode=list";						break;
+			case 5:document.location.href="happy_inquiry_list.php";		break;
+			case 6:document.location.href="banner_admin.php";					break;
+			case 7:document.location.href="happy_member.php";								break;
+			case 8:document.location.href="happy_config_view.php?number=23";								break;
+			case 9:document.location.href="happy_config_view.php?number=18";								break;
+			case 10:document.location.href="happy_config_view.php?number=52";								break;
+		}
+	}
+
+	//[ YOON : 2009-09-16 토글형설명박스 ( 한페이지 하나일 때 주로사용)]
+	//div 의 id값을 'help_view[번호]' 형식으로 하면 됨.
+	function helpView(num){
+
+		if(document.all['help_view' + num].style.display == 'none'){
+		document.all['help_view' + num].style.display = 'block';
+		}else{
+			document.all['help_view' + num].style.display = 'none';
+		}
+
+	}
+
+
+	//[ YOON : 2009-09-23 도움말 (여러개 사용시) ] ###################################[ start ]
+	//div id값 배열
+	var allDiv = new Array("help1","help2","help3");
+
+	//처음실행될 함수 : 모든레이어 감추기
+	//body onLoad = cfgStartLoad()
+	function cfgStartLoad(){
+		for (i=0;i < allDiv.length ; i++ ){
+			document.all[allDiv[i]].style.display = "none";
+		}
+	}
+
+	//해당 레이어보이기,나머지 레이어 안보이기
+	//onClick = 'nowShowLayer('div id명')
+	function cfgNowShowLayer(nowDiv, state) {
+		for (i=0;i < allDiv.length ; i++ ){
+			if (allDiv[i] != nowDiv)
+			{
+				document.all[allDiv[i]].style.display = 'none';
+			}else{
+				document.all[nowDiv].style.display = 'block';
+			}
+		}
+	}
+
+	//모든레이어 보이기
+	function cfgHideAllLayer() {
+		for (i=0;i < allDiv.length ; i++ ){
+			document.all[allDiv[i]].style.display = 'none';
+		}
+	}
+
+
+	//새창
+	function popup_win(url,width,height,resize,scroll){
+		window.open(url, 'popup_win','top=24, width='+width+',height='+height+',resizable='+resize+',scrollbars='+scroll+',location=0');
+	}
+	//[ YOON : 2009-09-23 도움말 (여러개 사용시) ] ###################################[ end ]
+
+
+
+	//이미지 미리로딩
+	// preload photos
+	var mypix = new Array()
+	function preloadImages(){
+		for (i=0; i<preloadImages.arguments.length;i++){
+			mypix[i]=new Image();
+			mypix[i].src=preloadImages.arguments[i];
+		}
+	}
+	// now allocate first photo
+	thispic = 0;
+	var isIE=document.all?true:false;
+	var isNS4=document.layers?true:false;
+	var isNS6=navigator.userAgent.indexOf("Gecko")!=-1?true:false;// now change photo to next
+	function processnext(){
+		// check if more pics
+		if(!document.images)return;
+		thispic=(thispic+1)%mypix.length;
+		if(isIE)
+			document.all.pic1.src = mypix[thispic].src;
+		else if(isNS4)
+			null;
+		else if(isNS6)
+			null;
+	}
+
+
+
+
+
+
+	//서브메뉴 보이기, 숨기기
+	var admin_sub_menu_Time	= '';
+	var admin_sub_menu_now	= '';
+
+	function admin_sub_menu_view(num)
+	{
+		if ( admin_sub_menu_now != num )
+		{
+			admin_sub_menu_block2(admin_sub_menu_now);
+			admin_sub_menu_now	= num;
+		}
+
+		if ( admin_sub_menu_Time != '' )
+		{
+			clearTimeout(admin_sub_menu_Time);
+			admin_sub_menu_Time	= '';
+		}
+
+
+		var obj				= document.getElementById('admin_sub_menu_layer_'+num);
+		var obj2				= document.getElementById('layer_menu_border');
+		var obj3				= document.getElementById('layer_menu_icon_'+num);
+
+		if ( obj != undefined )
+		{
+			obj.style.display			= '';
+			obj2.style.display		= '';
+			obj3.style.display		= '';
+		}
+
+
+		var obj_img			= document.getElementById('admin_top_menu_image_'+num);
+		var obj_img_ch		= document.getElementById('admin_top_menu_image_over_'+num);
+
+		if ( obj_img != undefined && obj_img_ch != undefined )
+		{
+			obj_img.src			= obj_img_ch.value;
+		}
+	}
+
+
+	function admin_sub_menu_block(num)
+	{
+		admin_sub_menu_Time	= setTimeout("admin_sub_menu_block2("+num+")", 500);
+	}
+
+
+	function admin_sub_menu_block2(num)
+	{
+		var obj				= document.getElementById('admin_sub_menu_layer_'+num);
+		var obj2				= document.getElementById('layer_menu_border');
+		var obj3				= document.getElementById('layer_menu_icon_'+num);
+
+		if ( obj != undefined )
+		{
+			obj.style.display	= 'none';
+			obj2.style.display = 'none';
+			obj3.style.display = 'none';
+		}
+
+		var obj_img			= document.getElementById('admin_top_menu_image_'+num);
+		var obj_img_ch		= document.getElementById('admin_top_menu_image_out_'+num);
+
+		if ( obj_img != undefined && obj_img_ch != undefined )
+		{
+			obj_img.src			= obj_img_ch.value;
+		}
+	}
+
+	//서브메뉴판 보일 때 선택폼 안보이기
+	function menuLayerShowHide(state){
+
+		var search_frm_onoff = document.getElementById("search_frm_onoff");
+
+		if(state == 'on'){
+			subMenu.style.display = "block";
+			search_frm_onoff.style.display = "none";
+		}else{
+			subMenu.style.display = "none";
+			search_frm_onoff.style.display = "block";
+		}
+	}
+
+</script>
+<!-- <script>
+  $( document ).ready( function() {
+	var jbOffset = $( '.scroll_menu' ).offset();
+	$( window ).scroll( function() {
+	  if ( $( document ).scrollTop() > jbOffset.top ) {
+		$( '.scroll_menu' ).addClass( 'Fixed' );
+	  }
+	  else {
+		$( '.scroll_menu' ).removeClass( 'Fixed' );
+	  }
+	});
+  } );
+</script> -->
+<style>
+/* 우측스크롤 - 필수style */
+.Fixed {position: fixed !important; top:0 !important;}
+.quick_adm{width:0; left:1260px; top:117px; position:absolute;  z-index:30}
+</style>
+</head>
+
+
+
+
+
+<body style="background:#434343; overflow-x: hidden;">
+
+<!-- NEW 툴팁 소스 -->
+<script type="text/javascript" src="./식당 홈페이지 _ 관리자모드_files/jquery_min.js.다운로드"></script>
+<script type="text/javascript" src="./식당 홈페이지 _ 관리자모드_files/stickytooltip.js.다운로드"></script>
+<link rel="stylesheet" type="text/css" href="./식당 홈페이지 _ 관리자모드_files/stickytooltip.css">
+<!-- <script type="text/javascript" src="../inc/lib.js"></script> -->
+
+
+
+<!-- 도움말툴팁2 -->
+<div id="dhtmltooltipHelp"></div>
+<script language="JavaScript" src="./식당 홈페이지 _ 관리자모드_files/tooltip2.js.다운로드" type="text/javascript"></script>
+
+
+
+
+<!--구글통계 로딩 애니메이션 -->
+<div id="loading_bar" class="css_loadingbar">
+	<table width="100%" height="100%" border="0">
+	<tbody><tr>
+		<td align="center" valign="top" style="padding-top:300px;"><center><div id="loading_google"></div></center></td>
+	</tr>
+	</tbody></table>
+</div>
+<!-- <script>flash_movie_add('../open_flash/loading_google.swf','520','120','loading_google')</script> -->
+
+
+<a name="top"></a>
+
+
+
+<!-- 툴팁관련 -->
+<div id="dhtmltooltip"></div>
+<script type="text/javascript" src="./식당 홈페이지 _ 관리자모드_files/happy_main.js.다운로드"></script>
+
+<div id="wrap_out">
+	<div class="quick_adm scroll_menu" style="position:fixed">
+		<table cellpadding="0" cellspacing="0" style="font-size:0">
+			<tbody><tr>
+				<td>
+					<a rev="width:1050px;height:800px;scrolling:auto;" rel="lyteframe" href="http://foodf.cgimall.co.kr/admin/monitor.php?win_type=layer" title="사이트 모니터링"><img src="./식당 홈페이지 _ 관리자모드_files/admin_quick_01.gif" alt="사이트 모니터링"></a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="http://foodf.cgimall.co.kr/admin/happy_menu.php?skin=skin1" title="메뉴관리"><img src="./식당 홈페이지 _ 관리자모드_files/admin_quick_02.gif" alt="메뉴관리"></a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img src="./식당 홈페이지 _ 관리자모드_files/admin_quick_03.gif" alt="메인 디자인관리" onclick="javascript:window.open(&quot;../index.php?mainAreaEdit=1&quot;,&quot;mainAreaEdit111&quot;,&quot;&quot;);" style="cursor:pointer">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="http://foodf.cgimall.co.kr/admin/best_keyword.php" title="커뮤니티 메인 디자인관리"><img src="./식당 홈페이지 _ 관리자모드_files/admin_quick_04.gif" alt="커뮤니티 메인 디자인관리" onclick="javascript:window.open(&quot;../index_community.php?mainAreaEdit=1&quot;,&quot;mainAreaEdit111&quot;,&quot;&quot;);" style="cursor:pointer" title="커뮤니티 메인 디자인관리"></a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img src="./식당 홈페이지 _ 관리자모드_files/admin_quick_05.gif" alt="쇼핑몰 메인 디자인관리" onclick="javascript:window.open(&quot;../index_mall.php?mainAreaEdit=1&quot;,&quot;mainAreaEdit111&quot;,&quot;&quot;);" style="cursor:pointer" title="쇼핑몰 메인 디자인관리">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="http://foodf.cgimall.co.kr/admin/happy_inquiry_list.php" title="문의내역관리"><img src="./식당 홈페이지 _ 관리자모드_files/admin_quick_06.gif" alt="문의내역관리"></a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="http://foodf.cgimall.co.kr/admin/happy_sangdam_list.php" title="문자 상담관리"><img src="./식당 홈페이지 _ 관리자모드_files/admin_quick_07.gif" alt="문자 상담관리"></a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a rev="width:1050px;height:800px;scrolling:auto;" rel="lyteframe" href="http://foodf.cgimall.co.kr/admin/html/happy_member_send.html" title=""><img src="./식당 홈페이지 _ 관리자모드_files/admin_quick_08.gif" alt="회원발송" style="margin-top:1px;"></a>
+				</td>
+			</tr>
+		</tbody></table>
+	</div>
+	<div id="wrap">
+
+		<div id="header">
+			<table cellspacing="0" cellpadding="0" style="width:100%;">
+			<tbody><tr>
+				<td style="padding:12px 0 10px 10px; width:200px;"><a href="javascript:admin_link(&#39;home&#39;);"><img src="./식당 홈페이지 _ 관리자모드_files/title_admin.png" border="0"></a></td>
+				<td valign="top">
+					<table cellspacing="0" cellpadding="0" style="width:100%;">
+					<tbody><tr>
+						<!-- <td align="center" style="padding-top:5px;">
+							<table cellspacing="0" cellpadding="0">
+							<tr>
+								<td style="width:11px; height:21px; background:url(img/bg_site_name_A01.gif) no-repeat;"></td>
+								<td style="background:url(img/bg_site_name_A02.gif) repeat-x; padding:0 10px 0 10px;"><b>식당 홈페이지</b></td>
+								<td style="width:11px; height:21px; background:url(img/bg_site_name_A03.gif) no-repeat;"></td>
+							</tr>
+							</table>
+						</td> -->
+						<td style="padding:5px 5px 0 0; height:21px;" align="right">
+							<div style="position:relative; left:0; top:0; z-index:0;">
+								<div style="position:absolute; right:0px; top:-10px; z-index:0; width:400px;" class="img_left">
+									<!-- [버튼] 예약관리 / 사이트메인 / 메뉴얼 / 로그아웃 -->
+									<a href="http://foodf.cgimall.co.kr/admin/module_admin.php?module=mall"><img src="./식당 홈페이지 _ 관리자모드_files/btn_mall.gif" border="0" alt="쇼핑몰관리" title="쇼핑몰관리"></a><a href="http://foodf.cgimall.co.kr/admin/module_admin.php?module=cashpay&amp;module_page=jangboo_cash"><img src="./식당 홈페이지 _ 관리자모드_files/btn_cashpay.gif" border="0" alt="캐쉬관리" title="캐쉬관리" align="absmiddle"></a><a href="javascript:admin_top_btn(&#39;main&#39;);"><img src="./식당 홈페이지 _ 관리자모드_files/btn_home.gif" border="0"></a><a href="javascript:admin_top_btn(&#39;logout&#39;);"><img src="./식당 홈페이지 _ 관리자모드_files/btn_logout.gif" border="0"></a>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="img_left" colspan="2">
+							<!-- 버튼이미지 변수 실제값은 [ top_menu.php ] -->
+							<table border="0" cellspacing="0" cellpadding="0" style=" height:53px;">
+							<tbody><tr>
+								<td valign="bottom" onmouseover="admin_sub_menu_view(1);" onmouseout="admin_sub_menu_block(1);"><a href="javascript:happy_admin_menu(1)"><img src="./식당 홈페이지 _ 관리자모드_files/8123321412573916216133.gif" id="admin_top_menu_image_1" border="0" align="absmiddle"></a><input type="hidden" id="admin_top_menu_image_over_1" value="upload/menu_image_over/8123321412573916216133.gif"><input type="hidden" id="admin_top_menu_image_out_1" value="upload/menu_image_over/8123321412573916216133.gif"><div id="layer_menu_icon_1" style="position:relative; left:0; top:0; z-index:99999; display:none;"><div style="position:absolute; left:45%; top:-4px;"><img src="./식당 홈페이지 _ 관리자모드_files/icon_on_layer_point.gif"></div></div></td><td valign="bottom" onmouseover="admin_sub_menu_view(262);" onmouseout="admin_sub_menu_block(262);"><a href="javascript:happy_admin_menu(262)"><img src="./식당 홈페이지 _ 관리자모드_files/8203011475044236184438.gif" id="admin_top_menu_image_262" border="0" align="absmiddle"></a><input type="hidden" id="admin_top_menu_image_over_262" value="upload/menu_image_over/4312271475044236697733.gif"><input type="hidden" id="admin_top_menu_image_out_262" value="upload/menu_image/8203011475044236184438.gif"><div id="layer_menu_icon_262" style="position:relative; left:0; top:0; z-index:99999; display:none;"><div style="position:absolute; left:45%; top:-4px;"><img src="./식당 홈페이지 _ 관리자모드_files/icon_on_layer_point.gif"></div></div></td><td valign="bottom" onmouseover="admin_sub_menu_view(268);" onmouseout="admin_sub_menu_block(268);"><a href="javascript:happy_admin_menu(268)"><img src="./식당 홈페이지 _ 관리자모드_files/6817491477287242152609.gif" id="admin_top_menu_image_268" border="0" align="absmiddle"></a><input type="hidden" id="admin_top_menu_image_over_268" value="upload/menu_image_over/2108321477287242442946.gif"><input type="hidden" id="admin_top_menu_image_out_268" value="upload/menu_image/6817491477287242152609.gif"><div id="layer_menu_icon_268" style="position:relative; left:0; top:0; z-index:99999; display:none;"><div style="position:absolute; left:45%; top:-4px;"><img src="./식당 홈페이지 _ 관리자모드_files/icon_on_layer_point.gif"></div></div></td><td valign="bottom" onmouseover="admin_sub_menu_view(36);" onmouseout="admin_sub_menu_block(36);"><a href="javascript:happy_admin_menu(36)"><img src="./식당 홈페이지 _ 관리자모드_files/835655141257660689674.jpg" id="admin_top_menu_image_36" border="0" align="absmiddle"></a><input type="hidden" id="admin_top_menu_image_over_36" value="upload/menu_image_over/550641412576606909015.gif"><input type="hidden" id="admin_top_menu_image_out_36" value="upload/menu_image/835655141257660689674.jpg"><div id="layer_menu_icon_36" style="position:relative; left:0; top:0; z-index:99999; display:none;"><div style="position:absolute; left:45%; top:-4px;"><img src="./식당 홈페이지 _ 관리자모드_files/icon_on_layer_point.gif"></div></div></td><td valign="bottom" onmouseover="admin_sub_menu_view(278);" onmouseout="admin_sub_menu_block(278);"><a href="javascript:happy_admin_menu(278)"><img src="./식당 홈페이지 _ 관리자모드_files/2305761475046790836681.gif" id="admin_top_menu_image_278" border="0" align="absmiddle"></a><input type="hidden" id="admin_top_menu_image_over_278" value="upload/menu_image_over/743094147504679021892.gif"><input type="hidden" id="admin_top_menu_image_out_278" value="upload/menu_image/2305761475046790836681.gif"><div id="layer_menu_icon_278" style="position:relative; left:0; top:0; z-index:99999; display:none;"><div style="position:absolute; left:45%; top:-4px;"><img src="./식당 홈페이지 _ 관리자모드_files/icon_on_layer_point.gif"></div></div></td><td valign="bottom" onmouseover="admin_sub_menu_view(91);" onmouseout="admin_sub_menu_block(91);"><a href="javascript:happy_admin_menu(91)"><img src="./식당 홈페이지 _ 관리자모드_files/1129461475046263326806.gif" id="admin_top_menu_image_91" border="0" align="absmiddle"></a><input type="hidden" id="admin_top_menu_image_over_91" value="upload/menu_image_over/2269241475046263827030.gif"><input type="hidden" id="admin_top_menu_image_out_91" value="upload/menu_image/1129461475046263326806.gif"><div id="layer_menu_icon_91" style="position:relative; left:0; top:0; z-index:99999; display:none;"><div style="position:absolute; left:45%; top:-4px;"><img src="./식당 홈페이지 _ 관리자모드_files/icon_on_layer_point.gif"></div></div></td><td valign="bottom" onmouseover="admin_sub_menu_view(41);" onmouseout="admin_sub_menu_block(41);"><a href="javascript:happy_admin_menu(41)"><img src="./식당 홈페이지 _ 관리자모드_files/5413251412578856334067.jpg" id="admin_top_menu_image_41" border="0" align="absmiddle"></a><input type="hidden" id="admin_top_menu_image_over_41" value="upload/menu_image_over/1266991412578856452180.gif"><input type="hidden" id="admin_top_menu_image_out_41" value="upload/menu_image/5413251412578856334067.jpg"><div id="layer_menu_icon_41" style="position:relative; left:0; top:0; z-index:99999; display:none;"><div style="position:absolute; left:45%; top:-4px;"><img src="./식당 홈페이지 _ 관리자모드_files/icon_on_layer_point.gif"></div></div></td><td valign="bottom" onmouseover="admin_sub_menu_view(66);" onmouseout="admin_sub_menu_block(66);"><a href="javascript:happy_admin_menu(66)"><img src="./식당 홈페이지 _ 관리자모드_files/4255411480495788969986.gif" id="admin_top_menu_image_66" border="0" align="absmiddle"></a><input type="hidden" id="admin_top_menu_image_over_66" value="upload/menu_image_over/7319211480495788757242.gif"><input type="hidden" id="admin_top_menu_image_out_66" value="upload/menu_image/4255411480495788969986.gif"><div id="layer_menu_icon_66" style="position:relative; left:0; top:0; z-index:99999; display:none;"><div style="position:absolute; left:45%; top:-4px;"><img src="./식당 홈페이지 _ 관리자모드_files/icon_on_layer_point.gif"></div></div></td><td valign="bottom" onmouseover="admin_sub_menu_view(79);" onmouseout="admin_sub_menu_block(79);"><a href="javascript:happy_admin_menu(79)"><img src="./식당 홈페이지 _ 관리자모드_files/9638061453957990800518.gif" id="admin_top_menu_image_79" border="0" align="absmiddle"></a><input type="hidden" id="admin_top_menu_image_over_79" value="upload/menu_image_over/3945991453957899133092.gif"><input type="hidden" id="admin_top_menu_image_out_79" value="upload/menu_image/9638061453957990800518.gif"><div id="layer_menu_icon_79" style="position: relative; left: 0px; top: 0px; z-index: 99999; display: none;"><div style="position:absolute; left:45%; top:-4px;"><img src="./식당 홈페이지 _ 관리자모드_files/icon_on_layer_point.gif"></div></div></td><td valign="bottom" onmouseover="admin_sub_menu_view(108);" onmouseout="admin_sub_menu_block(108);"><a href="javascript:happy_admin_menu(108)"><img src="./식당 홈페이지 _ 관리자모드_files/1168421412668329488107.jpg" id="admin_top_menu_image_108" border="0" align="absmiddle"></a><input type="hidden" id="admin_top_menu_image_over_108" value="upload/menu_image_over/9070351412668329425668.gif"><input type="hidden" id="admin_top_menu_image_out_108" value="upload/menu_image/1168421412668329488107.jpg"><div id="layer_menu_icon_108" style="position: relative; left: 0px; top: 0px; z-index: 99999; display: none;"><div style="position:absolute; left:45%; top:-4px;"><img src="./식당 홈페이지 _ 관리자모드_files/icon_on_layer_point.gif"></div></div></td>							</tr>
+							</tbody></table>
+						</td>
+					</tr>
+					</tbody></table>
+				</td>
+			</tr>
+			</tbody></table>
+		</div>
+
+		<!--메뉴 레이어-->
+		<div style="position:relative; left:0; top:0; z-index:9999;">
+			<div id="layer_menu_border" style="position: absolute; width: 100%; background: rgba(0, 0, 0, 0.6); z-index: 9999; top: -5px; border-top: 2px solid rgb(255, 114, 0); border-bottom: 2px solid rgb(255, 114, 0); display: none;">
+
+				<div id="admin_sub_menu_layer_1" style="display:; display:none; padding-left:200px;" onmouseover="admin_sub_menu_view(1);" onmouseout="admin_sub_menu_block(1);"><ul style="float:left; padding:10px;" class="top_menu">
+<a href="http://foodf.cgimall.co.kr/admin/setting_site.php" target="_self"><div class="point_title"><p><font color="FFFFFF">기본설정</font></p></div></a><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/setting_site.php" target="_self" style="color:#FFF;" class="smfont3">기본환경 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=47" target="_self" style="color:#FFF;" class="smfont3">현재접속자 환경설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=8" target="_self" style="color:#FFF;" class="smfont3">실시간쪽지 체크시간설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=15" target="_self" style="color:#FFF;" class="smfont3">도배방지키설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=4" target="_self" style="color:#FFF;" class="smfont3">지도API 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=70" target="_self" style="color:#FFF;" class="smfont3">네이버톡톡설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=58" target="_self" style="color:#FFF;" class="smfont3">관련 사이트설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=35" target="_self" style="color:#FFF;" class="smfont3">날씨환경설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=60" target="_self" style="color:#FFF;" class="smfont3">기본 메타태그 관리</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="FFFFFF">검색관련 설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/best_keyword.php" target="_self" style="color:#FFF;" class="smfont3">실시간검색어 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=7" target="_self" style="color:#FFF;" class="smfont3">실시간검색어 환경설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=16" target="_self" style="color:#FFF;" class="smfont3">추천키워드 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/auto_search_word.php" target="_self" style="color:#FFF;" class="smfont3">자동완성단어 기능설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=54" target="_self" style="color:#FFF;" class="smfont3">통합검색시 서브페이지 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_all_search_sort.php" target="_self" style="color:#FFF;" class="smfont3">통합검색시 출력순서 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=49" target="_self" style="color:#FFF;" class="smfont3">차단 단어 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=71" target="_self" style="color:#FFF;" class="smfont3">네이버 검색 API 설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<a href="http://foodf.cgimall.co.kr/admin/happy_cs.php" target="_self"><div class="point_title"><p><font color="ffffff">만족도 설정</font></p></div></a><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_cs.php" target="_self" style="color:#FFF;" class="smfont3">만족도 관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=62" target="_self" style="color:#FFF;" class="smfont3">만족도 기능설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="FFFFFF">지역설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/area_setup.php" target="_self" style="color:#FFF;" class="smfont3">지역관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/area_setup.php?action=company_add" target="_self" style="color:#FFF;" class="smfont3">지역추가</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="FFFFFF">설문조사 설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/poll_admin.php" target="_self" style="color:#FFF;" class="smfont3">설문조사관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/poll_admin.php?mode=add" target="_self" style="color:#FFF;" class="smfont3">설문조사등록</a></li></ul></div><div id="admin_sub_menu_layer_36" style="display:; display:none; padding-left:200px;" onmouseover="admin_sub_menu_view(36);" onmouseout="admin_sub_menu_block(36);"><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="FFFFFF">게시판관리</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=3" target="_self" style="color:#FFF;" class="smfont3">기본환경 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/bbs.php?mode=list" target="_self" style="color:#FFF;" class="smfont3"><font color="#fec501"><b>게시판 관리</b></font></a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/bbs.php?mode=add" target="_self" style="color:#FFF;" class="smfont3">게시판 등록</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=30" target="_self" style="color:#FFF;" class="smfont3">아이콘 및 관련이미지 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/all_bbs_list.php" target="_self" style="color:#FFF;" class="smfont3">게시글관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/all_review_list.php" target="_self" style="color:#FFF;" class="smfont3">댓글관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/bbs_icon.php" target="_self" style="color:#FFF;" class="smfont3">게시글 댓글 아이콘 관리</a></li></ul></div><div id="admin_sub_menu_layer_41" style="display:; display:none; padding-left:200px;" onmouseover="admin_sub_menu_view(41);" onmouseout="admin_sub_menu_block(41);"><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="FFFFFF">회원관리</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_member.php" target="_self" style="color:#FFF;" class="smfont3">전체회원정보</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_member.php?group_select=2" target="_self" style="color:#FFF;" class="smfont3">일반회원정보</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_member.php?group_select=19" target="_self" style="color:#FFF;" class="smfont3">SNS회원정보</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_member.php?group_select=16" target="_self" style="color:#FFF;" class="smfont3">모바일회원정보</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_member.php?group_select=20&amp;startdate=&amp;enddate=&amp;start_point=&amp;end_point=&amp;search_type=&amp;search_word=" target="_self" style="color:#FFF;" class="smfont3">관리회원정보</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_member.php?type=outList" target="_self" style="color:#FFF;" class="smfont3">탈퇴회원 관리</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<a href="http://foodf.cgimall.co.kr/admin/happy_member_group.php" target="_self"><div class="point_title"><p><font color="#FFFFFF">회원그룹 관리</font></p></div></a><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_member_group.php" target="_self" style="color:#FFF;" class="smfont3">회원그룹 관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_member_group.php?mode=add" target="_self" style="color:#FFF;" class="smfont3">회원그룹 등록</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="FFFFFF">회원관련 기본설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=64" target="_self" style="color:#FFF;" class="smfont3">SNS 로그인 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=17" target="_self" style="color:#FFF;" class="smfont3">본인인증 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=19" target="_self" style="color:#FFF;" class="smfont3">회원가입 관련설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/sms_send.php" target="_self" style="color:#FFF;" class="smfont3">전체회원 SMS발송</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/mailing.php?action=normal" target="_self" style="color:#FFF;" class="smfont3">전체회원 메일링발송</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=46" target="_self" style="color:#FFF;" class="smfont3">추천인 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=19#stipulation" target="_self" style="color:#FFF;" class="smfont3">회원이용약관설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=19#protective" target="_self" style="color:#FFF;" class="smfont3">개인정보 보호정책설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=19#protective2" target="_self" style="color:#FFF;" class="smfont3">개인정보 수집이용설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=19#email12" target="_self" style="color:#FFF;" class="smfont3">이메일 무단수집거부</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#ffffff">포인트설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/jangboo_point.php" target="_self" style="color:#FFF;" class="smfont3">포인트장부관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=38" target="_self" style="color:#FFF;" class="smfont3">포인트지급 설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#FFFFFF">관리자 서비스</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/admin_member.php" target="_self" style="color:#FFF;" class="smfont3">부관리자 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/admin_member.php?mode=write" target="_self" style="color:#FFF;" class="smfont3">부관리자 등록</a></li><li><font class="price3">○</font> <a href="javascript:void(0);" onclick="javascript:window.open(&quot;../happy_message.php?adminMode=y&quot;,&quot;&quot;,&quot;width=700,height=700&quot;)" style="color:#FFF;" class="smfont3">관리자 쪽지</a></li></ul></div><div id="admin_sub_menu_layer_66" style="display:; display:none; padding-left:200px;" onmouseover="admin_sub_menu_view(66);" onmouseout="admin_sub_menu_block(66);"><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#ffffff">결제관리</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_jangboo.php" target="_self" style="color:#FFF;" class="smfont3">통합결제내역</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=6" target="_self" style="color:#FFF;" class="smfont3">PG사 결제환경설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#FFFFFF">세금계산서 설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=65" target="_self" style="color:#FFF;" class="smfont3">사업자정보 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/popbill_joinmember.php" target="_self" style="color:#FFF;" class="smfont3">전자세금계산서(팝빌) 회원가입</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="FFFFFF">환경설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=24" target="_self" style="color:#FFF;" class="smfont3">외부광고태그 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=23" target="_self" style="color:#FFF;" class="smfont3">통계 코드설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=55" target="_self" style="color:#FFF;" class="smfont3">메뉴 접속통계 수집설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#FFFFFF">통계관리</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_menu_stats.php?number=all&amp;skin=skin1" target="_self" style="color:#FFF;" class="smfont3">메뉴 접속통계</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/banner_admin_stats.php" target="_self" style="color:#FFF;" class="smfont3">배너통계</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#FFFFFF">정기구독관리</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/standing_orders_setting.php" target="_self" style="color:#FFF;" class="smfont3">정기구독 상품관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/standing_orders_list.php" target="_self" style="color:#FFF;" class="smfont3">정기구독 신청내역</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/standing_orders_payLog.php" target="_self" style="color:#FFF;" class="smfont3">정기구독 결제내역</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/standing_orders_sms.php" target="_self" style="color:#FFF;" class="smfont3">정기구독 SMS발송설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_area_charge.php" target="_self" style="color:#FFF;" class="smfont3">정기구독 지역별배송비</a></li></ul></div><div id="admin_sub_menu_layer_79" style="padding-left: 200px; display: none;" onmouseover="admin_sub_menu_view(79);" onmouseout="admin_sub_menu_block(79);"><ul style="float:left; padding:10px;" class="top_menu">
+<a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=18" target="_self"><div class="point_title"><p><font color="#FFFFFF">SMS 관리</font></p></div></a><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=18" target="_self" style="color:#FFF;" class="smfont3">SMS계정 및 발송 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=32" target="_self" style="color:#FFF;" class="smfont3">SMS알림 / 쪽지발송 설정</a></li><li><font class="price3">○</font> <a href="javascript:void(0);" onclick="javascript:window.open(&quot;sms&quot;,&quot;happysms_admintool&quot;,&quot;width=560,height=650,scrolling=no,toolbar=no&quot;)" style="color:#FFF;" class="smfont3">SMS 포인트 결제</a></li></ul></div><div id="admin_sub_menu_layer_91" style="display:; display:none; padding-left:200px;" onmouseover="admin_sub_menu_view(91);" onmouseout="admin_sub_menu_block(91);"><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#FFFFFF">배너설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/banner_admin.php" target="_self" style="color:#FFF;" class="smfont3">배너관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/banner_admin.php?type=add" target="_self" style="color:#FFF;" class="smfont3">배너등록</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/banner_admin_slide.php" target="_self" style="color:#FFF;" class="smfont3">슬라이드 배너관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=21" target="_self" style="color:#FFF;" class="smfont3">슬라이드 배너설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#FFFFFF">팝업설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/popup.php" target="_self" style="color:#FFF;" class="smfont3">팝업관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/popup.php?mode=add" target="_self" style="color:#FFF;" class="smfont3">팝업등록</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=5" target="_self" style="color:#FFF;" class="smfont3">팝업 환경설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#ffffff">배너출력조건</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/banner_admin_tag.php" target="_self" style="color:#FFF;" class="smfont3">메뉴 페이지별 배너출력조건 설정</a></li></ul></div><div id="admin_sub_menu_layer_108" style="padding-left: 200px; display: none;" onmouseover="admin_sub_menu_view(108);" onmouseout="admin_sub_menu_block(108);"><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#FFFFFF">고급설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=52" target="_self" style="color:#FFF;" class="smfont3">메인 제너레이팅 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=9" target="_self" style="color:#FFF;" class="smfont3">개발자용 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/dbinfo.php" target="_self" style="color:#FFF;" class="smfont3">DB 테이블정보 보기</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_dbbackup.php" target="_self" style="color:#FFF;" class="smfont3">DB백업 초기화 설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="ffffff">디자인 HTML 직접관리</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=25" target="_self" style="color:#FFF;" class="smfont3">HTML 파일명/경로 확인기능</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/tagview.php" target="_self" style="color:#FFF;" class="smfont3">출력태그 생성기 </a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/design.php" target="_self" style="color:#FFF;" class="smfont3">디자인 HTML파일관리</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#FFFFFF">스킨관리</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/infoORgallery_skin_setting.php?skin_type=info" target="_self" style="color:#FFF;" class="smfont3">정보소개 스킨관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/infoORgallery_skin_setting.php?skin_type=gallery" target="_self" style="color:#FFF;" class="smfont3">갤러리 스킨관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/bbs_skin_setting.php" target="_self" style="color:#FFF;" class="smfont3">게시판 스킨관리</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#FFFFFF">기타설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_admin_ip.php" target="_self" style="color:#FFF;" class="smfont3">관리자 접속 리스트</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_block_log.php" target="_self" style="color:#FFF;" class="smfont3">차단IP리스트</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_img_resize.php?step=2" target="_self" style="color:#FFF;" class="smfont3">이미지 사이즈 변경</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/data_initialization.php" target="_self" style="color:#FFF;" class="smfont3">자료 초기화</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_file_search.php" target="_self" style="color:#FFF;" class="smfont3">템플릿파일 문자열 검색</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/monitor.php" target="_self" style="color:#FFF;" class="smfont3">사이트 모니터링</a></li></ul></div><div id="admin_sub_menu_layer_278" style="display:; display:none; padding-left:200px;" onmouseover="admin_sub_menu_view(278);" onmouseout="admin_sub_menu_block(278);"><ul style="float:left; padding:10px;" class="top_menu">
+<a href="http://foodf.cgimall.co.kr/admin/happy_inquiry_list.php" target="_self"><div class="point_title"><p><font color="ffffff">문의관리</font></p></div></a><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_inquiry_list.php" target="_self" style="color:#FFF;" class="smfont3"><font color="#5ad815"><b>문의내역 관리</b></font></a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=50" target="_self" style="color:#FFF;" class="smfont3">문의 환경설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_inquiry_form_list.php" target="_self" style="color:#FFF;" class="smfont3">문의 입력폼 관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=67" target="_self" style="color:#FFF;" class="smfont3">문의하기 SMS발송 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=51" target="_self" style="color:#FFF;" class="smfont3">문의하기 이메일발송 설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="#ffffff">상담자관리</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_inquiry_member_category.php" target="_self" style="color:#FFF;" class="smfont3">상담자 카테고리관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_inquiry_member.php" target="_self" style="color:#FFF;" class="smfont3">상담자 관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_inquiry_member_config.php" target="_self" style="color:#FFF;" class="smfont3">예약 기본설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<a href="http://foodf.cgimall.co.kr/admin/happy_sangdam_list.php" target="_self"><div class="point_title"><p><font color="ffffff">문자상담 신청관리</font></p></div></a><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_sangdam_list.php" target="_self" style="color:#FFF;" class="smfont3">문자상담 신청관리</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=66" target="_self" style="color:#FFF;" class="smfont3">문자상담신청 환경설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=68" target="_self" style="color:#FFF;" class="smfont3">문자상담 SMS발송설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=69" target="_self" style="color:#FFF;" class="smfont3">문자상담 이메일 발송설정</a></li></ul></div><div id="admin_sub_menu_layer_268" style="display:; display:none; padding-left:200px;" onmouseover="admin_sub_menu_view(268);" onmouseout="admin_sub_menu_block(268);"><ul style="float:left; padding:10px;" class="top_menu">
+<a href="http://foodf.cgimall.co.kr/admin/skin_design_simple.php" target="_self"><div class="point_title"><p><font color="ffffff">PC 디자인설정</font></p></div></a><li><font class="price3">○</font> <a href="javascript:void(0);" onclick="javascript:window.open(&quot;../index.php?mainAreaEdit=1&quot;,&quot;mainAreaEdit111&quot;,&quot;&quot;);" style="color:#FFF;" class="smfont3"><font color="#3cdbf8"><b>메인페이지 출력디자인설정</b></font></a></li><li><font class="price3">○</font> <a href="javascript:void(0);" onclick="javascript:window.open(&quot;../index_mall.php?mainAreaEdit=1&quot;,&quot;mainAreaEdit111&quot;,&quot;&quot;);" style="color:#FFF;" class="smfont3"><font color="#3cdbf8"><b>쇼핑몰메인 출력디자인설정</b></font></a></li><li><font class="price3">○</font> <a href="javascript:void(0);" onclick="javascript:window.open(&quot;../index_community.php?mainAreaEdit=1&quot;,&quot;mainAreaEdit111&quot;,&quot;&quot;);" style="color:#FFF;" class="smfont3"><font color="#3cdbf8"><b>커뮤니티메인 출력디자인설정</b></font></a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/skin_design_simple.php" target="_self" style="color:#FFF;" class="smfont3">영역별 디자인 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/skin_design.php?skin_type=top" target="_self" style="color:#FFF;" class="smfont3">상단 영역 디자인</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/skin_design.php?skin_type=main" target="_self" style="color:#FFF;" class="smfont3">메인페이지 본문 영역 디자인</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/skin_design.php?skin_type=middle" target="_self" style="color:#FFF;" class="smfont3">서브 공통 영역 디자인</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/skin_design.php?skin_type=foot" target="_self" style="color:#FFF;" class="smfont3">하단 영역 이미지 방식 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=63" target="_self" style="color:#FFF;" class="smfont3">하단 영역 에디터 방식 설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<a href="http://foodf.cgimall.co.kr/admin/skin_design_simple.php?mobile_skin=ok" target="_self"><div class="point_title"><p><font color="ffffff">모바일 디자인설정</font></p></div></a><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/index_mobile.php?mainAreaEdit=1" target="_blank" style="color:#FFF;" class="smfont3"><font color="#3cdbf8"><b>메인페이지 출력디자인설정</b></font></a></li><li><font class="price3">○</font> <a href="javascript:void(0);" onclick="javascript:window.open(&quot;../index_mall.php?mainAreaEdit=1&amp;mainAreaEditMode=mobile&quot;,&quot;mainAreaEdit111&quot;,&quot;&quot;);" style="color:#FFF;" class="smfont3"><font color="#3cdbf8"><b>쇼핑몰메인 출력디자인설정</b></font></a></li><li><font class="price3">○</font> <a href="javascript:void(0);" onclick="javascript:window.open(&quot;../index_community.php?mainAreaEdit=1&amp;mainAreaEditMode=mobile&quot;,&quot;mainAreaEdit111&quot;,&quot;&quot;);" style="color:#FFF;" class="smfont3"><font color="#3cdbf8"><b>커뮤니티메인 출력디자인설정</b></font></a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/skin_design_simple.php?mobile_skin=ok" target="_self" style="color:#FFF;" class="smfont3">영역별 디자인 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/skin_design.php?skin_type=top_m" target="_self" style="color:#FFF;" class="smfont3">상단 영역 디자인</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/skin_design.php?skin_type=middle_m" target="_self" style="color:#FFF;" class="smfont3">서브 공통 영역 디자인</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/skin_design.php?skin_type=foot_m" target="_self" style="color:#FFF;" class="smfont3">하단 영역 이미지 방식 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=63" target="_self" style="color:#FFF;" class="smfont3">하단 영역 에디터 방식 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=44" target="_self" style="color:#FFF;" class="smfont3">대문 디자인 설정</a></li></ul><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="ffffff">관련이미지 설정</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=26" target="_self" style="color:#FFF;" class="smfont3">워터마크 및 쪽지이미지 설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/sponsor_admin.php" target="_self" style="color:#FFF;" class="smfont3">후원사 이미지 설정</a></li></ul></div><div id="admin_sub_menu_layer_262" style="display:; display:none; padding-left:200px;" onmouseover="admin_sub_menu_view(262);" onmouseout="admin_sub_menu_block(262);"><ul style="float:left; padding:10px;" class="top_menu">
+<div class="point_title"><p><font color="ffffff">메뉴관리</font></p></div><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_menu.php?skin=skin1" target="_self" style="color:#FFF;" class="smfont3"><font color="#fec501"><b>메뉴 및 페이지설정</b></font></a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=61" target="_self" style="color:#FFF;" class="smfont3">준비중 페이지설정</a></li><li><font class="price3">○</font> <a href="http://foodf.cgimall.co.kr/admin/bbs_regist_simple.php" target="_self" style="color:#FFF;" class="smfont3"><b>정보소개 간편등록</b></a></li></ul></div>
+			</div>
+		</div>
+		<!--메뉴 레이어 끝-->
+
+
+		<!-- 클리어타임 -->
+		<script>
+			function happy_admin_menu(num)
+			{
+				MenuLink			= Array();
+				MenuTarget			= Array();
+				MenuLink[1] = 'setting_site.php'; 
+MenuTarget[1] = '_self'; 
+MenuLink[262] = 'happy_menu.php?skin=skin1'; 
+MenuTarget[262] = '_self'; 
+MenuLink[268] = 'skin_design_simple.php'; 
+MenuTarget[268] = '_self'; 
+MenuLink[36] = 'bbs.php?mode=list'; 
+MenuTarget[36] = '_self'; 
+MenuLink[278] = 'happy_inquiry_list.php'; 
+MenuTarget[278] = '_self'; 
+MenuLink[91] = 'banner_admin.php'; 
+MenuTarget[91] = '_self'; 
+MenuLink[41] = 'happy_member.php'; 
+MenuTarget[41] = '_self'; 
+MenuLink[66] = 'happy_jangboo.php'; 
+MenuTarget[66] = '_self'; 
+MenuLink[79] = 'happy_config_view.php?number=18'; 
+MenuTarget[79] = '_self'; 
+MenuLink[108] = 'happy_config_view.php?number=9'; 
+MenuTarget[108] = '_self'; 
+
+				if ( MenuLink[num] != undefined )
+				{
+					if ( MenuTarget[num] == '_self' || MenuTarget[num] == '' )
+					{
+						window.location.href		= MenuLink[num];
+					}
+					else if ( MenuTarget[num] == '_blank' )
+					{
+						window.open(MenuLink[num]);
+					}
+					else if ( MenuTarget[num] == '_parent' )
+					{
+						parent.window.location.href	= MenuLink[num];
+					}
+					else if ( MenuTarget[num] == '_top' )
+					{
+						top.window.location.href	= MenuLink[num];
+					}
+				}
+			}
+		</script>
+
+		<!--현재위치-->
+		<div>
+			<table cellspacing="0" style="width:100%; background:url(img/bg_bar03.gif) repeat-x;">
+			<tbody><tr>
+				<td style="padding:0 0 5px 45px;" class="now_location"><a href="http://foodf.cgimall.co.kr/admin/main.php">HOME</a>  &gt; <a href="http://foodf.cgimall.co.kr/admin/setting_site.php">기본관리</a> &gt; <a href="http://foodf.cgimall.co.kr/admin/best_keyword.php">실시간검색어 설정</a></td>
+				<td align="right" style="padding-right:5px;"></td>
+			</tr>
+			</tbody></table>
+		</div>
+		<!--현재위치 끝-->
+		<div>
+
+			<!-- 본문부분, dummy_layer(sub_menu.php에) -->
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#252525" style="margin:0 0 1px 0;" id="cntWrapperTable">
+			<tbody><tr bgcolor="#2E2E2E">
+				<td style="height:5px; background:url(&#39;img/bg_bar04a.gif&#39;) repeat-x;" nowrap=""><div id="dummy_layer"><div></div></div></td>
+			</tr>
+			<tr>
+			<td>
+
+
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<!-- 필드폼디자인 관리메뉴일 경우 좌측메뉴 없앤형태로 출력 -->
+							<!-- TOP -->
+				<tbody><tr>
+					<!-- 좌측  -->
+					<td style="width:219px; height:22px; background:url(&#39;img/bgbox_02_v1_a2.gif&#39;) no-repeat 0 0;" nowrap=""></td>
+
+					<!-- 우측, dummy_layer_cnt(sub_menu.php에) -->
+					<td style="background:url(&#39;img/bgbox_02_v2_a.gif&#39;);"><div id="dummy_layer_cnt"><div></div></div></td>
+					<td style="width:12px; background:url(&#39;img/bgbox_02_v3_a.gif&#39;) no-repeat 0 0;" nowrap=""></td>
+				</tr>
+
+				<!-- CONTENTS -->
+				<tr>
+					<!-- 좌측  -->
+					<td style="background:url(&#39;img/bgbox_02_v1_b2.gif&#39;) repeat-y; padding:5px 25px 0 12px;" valign="top">
+
+						
+
+						<div style="position:relative; left:0; top:0; z-index:1;">
+							<div style="position:absolute; left:-9px; top:-17px;">
+								<img src="./식당 홈페이지 _ 관리자모드_files/6757041453968469722885.gif" border="0" align="absmiddle">
+							</div>
+						</div>
+						<div style="height:60px;"></div>
+						<div style="margin-bottom:10px;" align="center">
+							<!--관리자 메뉴검색-->
+							<div style="margin-bottom:5px;"><input type="text" name="menu_search" id="menu_search" style="width:150px; height:20px; line-height:20px; background:#f8f8f8; border:1px solid #b4b4b4; border-right:none; padding-left:3px; background-image:url(img/img_menu_search.gif);" onfocus="this.style.backgroundImage=&#39;&#39;;" onblur="if(this.value.length==0){this.style.backgroundImage=&#39;url(img/img_menu_search.gif)&#39;}else{this.style.backgroundImage=&#39;url(none)&#39;}" onkeyup="startMethod(event.keyCode);" onkeydown="moveLayer(event.keyCode);" onmouseup="startMethod();" autocomplete="off" onkeypress="if(event.keyCode==13){admin_menu_search(&#39;&#39;);}" alt="통합검색" title="통합검색"><img src="./식당 홈페이지 _ 관리자모드_files/btn_admin_menu_search.gif" value="검색" onclick="admin_menu_search(&#39;click&#39;)" style="vertical-align:top;"></div>
+							<!--관리자 메뉴검색 끝-->
+						</div>
+
+						<!--자동완성-->
+						<div id="autoposition">
+							<div id="autoSearchPartWrap">
+								<div id="autoSearchPart"></div>
+							</div>
+						</div>
+						<!--자동완성-->
+
+						<!--검색결과-->
+						<div id="admin_menu_search_layer" style="display:none">
+							<div align="right" style="width:179px;"><img src="./식당 홈페이지 _ 관리자모드_files/btn_admin_menu_search_close.gif" alt="검색된 메뉴가 없습니다. 창닫기" title="검색된 메뉴가 없습니다. 창닫기" style="cursor:pointer; " onclick="document.getElementById(&#39;admin_menu_search_layer&#39;).style.display=&#39;none&#39;;"></div>
+							<div id="admin_menu_search_frame" name="admin_menu_search_frame" class="admin_menu_search"></div>
+						</div>
+						<!--검색결과 끝-->
+
+						<script>
+							function admin_menu_search(type)
+							{
+								admin_menu_StartRequest('admin_menu_search.php?menu_search='+ encodeURI(document.getElementById('menu_search').value)+'&clicktype=' + type, 'admin_menu_search_result');
+								document.getElementById('admin_menu_search_layer').style.display	= '';
+								document.getElementById('autoSearchPart').style.display = "none";
+							}
+
+
+							function admin_menu_search_result()
+							{
+								admin_menu_Responses	= admin_menu_Response.split("___cut___");
+
+								if ( admin_menu_Responses[0] == 'error' )
+								{
+									document.getElementById('admin_menu_search_layer').style.display	= 'none';
+									alert(admin_menu_Responses[1]);
+								}
+								else if ( admin_menu_Responses[0] == 'ok' )
+								{
+									document.getElementById('admin_menu_search_frame').innerHTML		= admin_menu_Responses[1];
+									/* 2014-02-28 WOO 엔터 > 고 */
+									//alert('1: ' + admin_menu_Responses[2]);
+									if(admin_menu_Responses[2] != undefined && admin_menu_Responses[2] != 'no')
+									{
+										//alert(admin_menu_Responses[2]);
+										location.href	= './' + admin_menu_Responses[2];
+									}
+								}
+								else
+								{
+									document.getElementById('admin_menu_search_layer').style.display	= 'none';
+									alert('알수없는 에러 발생');
+								}
+							}
+
+
+							var admin_menu_Request;
+							var admin_menu_HandleFunction	= '';
+							var admin_menu_Response = '';
+
+							if (window.XMLHttpRequest)
+							{
+								admin_menu_Request = new XMLHttpRequest();
+							}
+							else
+							{
+								admin_menu_Request = new ActiveXObject("Microsoft.XMLHTTP");
+							}
+
+
+							function admin_menu_StartRequest( linkUrl, handleFunc )
+							{
+								admin_menu_HandleFunction	= handleFunc;
+								admin_menu_Request.open("GET", linkUrl , true);
+								admin_menu_Request.onreadystatechange = admin_menu_HandleStateChange;
+								admin_menu_Request.send(null);
+							}
+
+
+							function admin_menu_StartRequestPost( linkUrl, sendData, handleFunc )
+							{
+								admin_menu_HandleFunction	= handleFunc;
+								admin_menu_Request.open("POST", linkUrl , true);
+								admin_menu_Request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+								admin_menu_Request.onreadystatechange = admin_menu_HandleStateChange;
+								admin_menu_Request.send(sendData);
+							}
+
+
+
+							function admin_menu_HandleStateChange()
+							{
+								if (admin_menu_Request.readyState == 4)
+								{
+									if (admin_menu_Request.status == 200)
+									{
+										var response = admin_menu_Request.responseText;
+										admin_menu_Response	= response;
+										//alert(admin_menu_HandleFunction);
+										window.status="전송완료"
+										eval(admin_menu_HandleFunction +"()");
+									}
+								}
+								if (admin_menu_Request.readyState == 1)  {
+									window.status="로딩중"
+								}
+							}
+
+						</script>
+
+
+	<table cellspacing="0" cellpadding="0" border="0" style="margin-bottom:20px;"><tbody><tr><td style="padding-top:5px;">
+<a href="http://foodf.cgimall.co.kr/admin/setting_site.php" target="_self"><div class="title_left_menu"><font color="FFFFFF">기본설정</font></div></a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/setting_site.php" target="_self">기본환경 설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=47" target="_self">현재접속자 환경설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=8" target="_self">실시간쪽지 체크시간설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=15" target="_self">도배방지키설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=4" target="_self">지도API 설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=70" target="_self">네이버톡톡설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=58" target="_self">관련 사이트설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=35" target="_self">날씨환경설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=60" target="_self">기본 메타태그 관리</a></td></tr>
+<tr><td style="padding-top:5px;">
+<div class="title_left_menu"><font color="FFFFFF">검색관련 설정</font></div></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/best_keyword.php" target="_self">실시간검색어 설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=7" target="_self">실시간검색어 환경설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=16" target="_self">추천키워드 설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/auto_search_word.php" target="_self">자동완성단어 기능설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=54" target="_self">통합검색시 서브페이지 설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_all_search_sort.php" target="_self">통합검색시 출력순서 설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=49" target="_self">차단 단어 설정</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=71" target="_self">네이버 검색 API 설정</a></td></tr>
+<tr><td style="padding-top:5px;">
+<a href="http://foodf.cgimall.co.kr/admin/happy_cs.php" target="_self"><div class="title_left_menu"><font color="ffffff">만족도 설정</font></div></a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_cs.php" target="_self">만족도 관리</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/happy_config_view.php?number=62" target="_self">만족도 기능설정</a></td></tr>
+<tr><td style="padding-top:5px;">
+<div class="title_left_menu"><font color="FFFFFF">지역설정</font></div></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/area_setup.php" target="_self">지역관리</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/area_setup.php?action=company_add" target="_self">지역추가</a></td></tr>
+<tr><td style="padding-top:5px;">
+<div class="title_left_menu"><font color="FFFFFF">설문조사 설정</font></div></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/poll_admin.php" target="_self">설문조사관리</a></td></tr>
+<tr><td class="smfont6" style="padding-left:5px; line-height:20px;">
+<img src="./식당 홈페이지 _ 관리자모드_files/icon_point_arrow2.gif" style="vertical-align:middle; margin-right:5px;"><a href="http://foodf.cgimall.co.kr/admin/poll_admin.php?mode=add" target="_self">설문조사등록</a></td></tr>
+</tbody></table>
+		<!-- 모니터링 관리자접속설정 시작-->
+	<table cellspacing="0" cellpadding="0" style="width:179px; margin-bottom:12px;">
+	<tbody><tr>
+		<td style="background:url(&#39;../monitor/img/title_side_monitor.jpg&#39;) no-repeat; height:35px; widht:179px;"></td>
+	</tr>
+	<tr>
+		<td>
+			<table cellspacing="0" cellpadding="0" style="width:100%; border-left:1px solid #c1c1c1; border-right:1px solid #c1c1c1; background:#f1f1f1;">
+				<tbody><tr>
+					<td style="padding:10px;">
+					
+											<span style="letter-spacing:-1px; line-height:17px; font-size:12px; font-family:&#39;굴림&#39;,Gulim,&#39;돋움&#39;,Dotum,&#39;맑은고딕&#39;; color:#434855;">접속비밀번호 최종 변경일이<br>
+						<strong style="color:#ff0000;">60일</strong>이 지났습니다. <strong style="color:#ff0000;">변경요망!</strong></span>
+						<div style="border-top:1px solid #c9c9c9; height:2px; background:#FFFFFF; margin:7px 0 10px 0; font-size:1px;"><div></div></div>
+					
+																<table cellspacing="0" cellpadding="0">
+							<tbody><tr>
+								<td style="letter-spacing:-1px; font-size:12px; font-family:&#39;굴림&#39;,Gulim,&#39;돋움&#39;,Dotum,&#39;맑은고딕&#39;; color:#434855;">접속시도 IP저장</td>
+								<td style="padding-left:6px;"><a href="http://cgimall.co.kr/happy_faq/324" target="_blank"><img src="./식당 홈페이지 _ 관리자모드_files/btn_side_monitor_off.jpg" alt="" title="" border="0"></a></td>
+							</tr>
+						</tbody></table>
+										</td>
+				</tr>
+			</tbody></table>
+		</td>
+	</tr>
+	<tr>
+		<td style="background:url(&#39;../monitor/img/bg_bottom_side_monitor.jpg&#39;) no-repeat; height:5px; widht:179px;"></td>
+	</tr>
+	</tbody></table>
+
+	<!-- 모니터링 관리자접속설정 끝-->
+
+	<!-- 보안 업데이트 시작-->
+	<script type="text/javascript">
+	<!--
+		if ( !window.jQuery )
+		{
+			document.write("<sc"+"ript type='text/javascript' src='../js/jquery_min.js'></sc"+"ript>");
+		}
+
+		function happy_secure_update()
+		{
+			$.ajax({
+				url		: "happy_secure_update.php",
+				type	: "GET",
+				success : function(response){
+
+					var responses	= response.split("___cut___");
+
+					var msg		= "";
+					switch ( responses[0] )
+					{
+						case 'ok'				: msg = "보안 업데이트가 완료되었습니다."; break;
+						case 'latest_version'	: msg = "최신 버전입니다."; break;
+						case 'latest_file'		: msg = "최신 파일입니다."; break;
+						case 'secure'			: msg = "접속 권한이 없습니다."; break;
+						default					: msg = "업데이트 중 오류가 발생했습니다.["+response+"]"; break;
+					}
+
+					if ( responses[1] != "" )
+					{
+						$("#happy_secure_update_date").html(responses[1]);
+					}
+
+					alert(msg);
+					return;
+				}
+			});
+		}
+	//-->
+	</script>
+	<table cellspacing="0" cellpadding="0" style="width:179px; margin-bottom:12px;">
+	<tbody><tr>
+		<td style="background:url(&#39;img/side_secure_title.jpg&#39;) no-repeat; height:35px; widht:179px;"></td>
+	</tr>
+	<tr>
+		<td>
+			<table cellspacing="0" cellpadding="0" style="width:100%; border-left:1px solid #c1c1c1; border-right:1px solid #c1c1c1; background:#f1f1f1;">
+				<tbody><tr>
+					<td style="padding:10px;">
+
+						<span style="letter-spacing:-1px; line-height:17px; font-size:12px; font-family:&#39;굴림&#39;,Gulim,&#39;돋움&#39;,Dotum,&#39;맑은고딕&#39;; color:#434855;">
+							마지막 업데이트 날짜<br>
+														<span id="happy_secure_update_date" style="color:#4D678C; font-weight:bold;">2024-02-24 03:48:59</span>
+						</span>
+						<div style="border-top:1px solid #c9c9c9; height:2px; background:#FFFFFF; margin:7px 0 10px 0; font-size:1px;"><div></div></div>
+						<table cellspacing="0" cellpadding="0" style="width:100%;">
+							<tbody><tr>
+								<td style="letter-spacing:-1px; font-size:12px; font-family:&#39;굴림&#39;,Gulim,&#39;돋움&#39;,Dotum,&#39;맑은고딕&#39;; color:#434855;">수동 업데이트</td>
+								<td style="padding-left:6px; text-align:right;"><a href="javascript:void(0);" onclick="happy_secure_update()" class="btn_small_stand">업데이트</a></td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+			</tbody></table>
+		</td>
+	</tr>
+	<tr>
+		<td style="background:url(&#39;img/side_secure_bg_bottom.jpg&#39;) no-repeat; height:5px; widht:179px;"></td>
+	</tr>
+	</tbody></table>
+	<!-- 보안 업데이트 끝-->
+
+	
+						<div style="margin-bottom:10px;">
+							<div class="title_left_menu2">관리자 정보</div>
+							<div>
+								<table cellspacing="0" style="width:100%;">
+								<tbody><tr>
+									<td style="height:4px; background:url(img/img_menu_table_01.gif) no-repeat;"></td>
+								</tr>
+								<tr>
+									<td style="background:url(img/img_menu_table_02.gif) repeat-y; padding:5px 10px 0 10px;">
+
+										<p style="margin-bottom:3px;" class="smfont3">사이트관리자</p>
+										<div align="right" class="menu_box "><strong class="smfont3">홍길동</strong></div>
+										<p style="margin-bottom:3px;" class="smfont3">관리자아이디</p>
+										<div align="right" class="menu_box">cgimalladmin</div>
+										<p style="margin-bottom:3px;" class="smfont3">사이트관리자</p>
+										<div align="right" class="menu_box">test@happycgi.com</div>
+										<p style="margin-bottom:3px;" class="smfont3">현재 홈페이지주소</p>
+										<div align="right" class="menu_box">http://foodf.cgimall.co.kr</div>
+
+									</td>
+								</tr>
+								<tr>
+									<td style="height:4px; background:url(img/img_menu_table_03.gif) no-repeat;"></td>
+								</tr>
+								</tbody></table>
+							</div>
+						</div>
+					
+						<div style="margin-bottom:10px;">
+							<div class="title_left_menu3">카운트 정보</div>
+							<div>
+								<table cellspacing="0" style="width:100%;">
+								<tbody><tr>
+									<td style="height:4px; background:url(img/img_menu_table_01.gif) no-repeat;"></td>
+								</tr>
+								<tr>
+									<td style="background:url(img/img_menu_table_02.gif) repeat-y; padding:5px 10px 0 10px;">
+
+										<table cellspacing="0" style="width:100%;" class="count_info">
+										<tbody><tr>
+											<td class="smfont3">전체회원수</td>
+											<td align="right" class="price">52 <font class="unit">명</font></td>
+										</tr>
+										<tr>
+											<td class="smfont3">부관리자수</td>
+											<td align="right" class="price">3 <font class="unit">명</font></td>
+										</tr>
+										</tbody></table>
+									</td>
+								</tr>
+								<tr>
+									<td style="height:4px; background:url(img/img_menu_table_03.gif) no-repeat;"></td>
+								</tr>
+								</tbody></table>
+							</div>
+						</div>
+		
+						<div style="margin-bottom:10px;">
+							<div class="title_left_menu3">쇼핑몰 카운트 정보</div>
+							<div>
+								<table cellspacing="0" style="width:100%;">
+								<tbody><tr>
+									<td style="height:4px; background:url(img/img_menu_table_01.gif) no-repeat;"></td>
+								</tr>
+								<tr>
+									<td style="background:url(img/img_menu_table_02.gif) repeat-y; padding:5px 10px 0 10px;">
+
+										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+										<tbody><tr>
+											<td style="padding:0 0 5px 0;">
+												<table cellspacing="0" style="width:100%;" class="count_info">
+												<tbody><tr>
+													<td class="smfont3">총 상품</td>
+													<td align="right" class="price">23 <font class="unit">개</font></td>
+												</tr>
+												<tr>
+													<td class="smfont3">오늘 등록된 상품</td>
+													<td align="right" class="price">0 <font class="unit">개</font></td>
+												</tr>
+												<tr>
+													<td class="smfont3">이달 등록된 상품</td>
+													<td align="right" class="price">0 <font class="unit">개</font></td>
+												</tr>
+												<tr>
+													<td class="smfont3">총 주문 상품개수</td>
+													<td align="right" class="price">29 <font class="unit">개</font></td>
+												</tr>
+												<tr>
+													<td class="smfont3">평균주문 상품개수</td>
+													<td align="right" class="price">0.97 <font class="unit">개</font></td>
+												</tr>
+												</tbody></table>
+											</td>
+										</tr>
+										<tr>
+											<td style="border-top:1px #ccc dashed; padding:10px 0 5px 0;">
+
+												<table cellspacing="0" style="width:100%;" class="count_info">
+												<tbody><tr>
+													<td class="smfont3">오늘 주문건</td>
+													<td align="right" class="price">0 <font class="unit">개</font></td>
+												</tr>
+												<tr>
+													<td class="smfont3">어제 주문건</td>
+													<td align="right" class="price">0 <font class="unit">개</font></td>
+												</tr>
+												<tr>
+													<td class="smfont3">이달 주문건</td>
+													<td align="right" class="price">0 <font class="unit">개</font></td>
+												</tr>
+												<tr>
+													<td class="smfont3">지난달 주문건</td>
+													<td align="right" class="price">0 <font class="unit">개</font></td>
+												</tr>
+												<tr>
+													<td class="smfont3">전체 주문건</td>
+													<td align="right" class="price">30 <font class="unit">개</font></td>
+												</tr>
+												</tbody></table>
+
+											</td>
+										</tr>
+										</tbody></table>
+									</td>
+								</tr>
+
+								<tr>
+									<td style="height:4px; background:url(img/img_menu_table_03.gif) no-repeat;"></td>
+								</tr>
+								</tbody></table>
+							</div>
+						</div>
+		
+						<!-- 뉴스상점 -->
+						<br>
+						<a href="javascript:void(0);" onclick="window.open(&#39;../master/news_share/store_login.php?mode=setting&#39;,&#39;happysms_admintool1&#39;,&#39;width=670,height=450,top=100,left=100,scrollbars=yes,toolbar=no&#39;);"><img src="./식당 홈페이지 _ 관리자모드_files/btn_store_config.gif" style="cursor:pointer; border:0px;"></a><br>
+						<a href="javascript:void(0);" onclick="window.open(&#39;../master/news_share&#39;,&#39;happysms_admintool2&#39;,&#39;width=815,height=800,top=100,left=100,scrollbars=yes,toolbar=no&#39;);"><img src="./식당 홈페이지 _ 관리자모드_files/btn_store_go.gif" style="cursor:pointer; margin-top:10px; border:0px;"></a>
+						<!-- 뉴스상점 -->
+						<a rev="width:1050px;height:800px;scrolling:auto;" rel="lyteframe" href="http://foodf.cgimall.co.kr/admin/monitor.php?win_type=layer"><img src="./식당 홈페이지 _ 관리자모드_files/btn_site_monitor.jpg" style="cursor:pointer; margin-top:10px; border:0px;"></a>
+					</td>
+
+					<!-- 우측 -->
+					<td style="background-color:#FFF; padding:10px 11px 0 11px;" valign="top">
+
+
+			
+
+
+
+	<!-- 본문내용 [ start ] -->
+
+	<script>
+
+		function sendit(no,frm)
+		{
+
+
+			if ( no == 0 )
+			{
+				keyword	= frm.keyword.value;
+				count	= frm.count.value;
+
+				if ( keyword == "" )
+				{
+					alert("검색어를 입력해주세요.");
+					frm.keyword.focus();
+				}
+				else if ( count == "" )
+				{
+					alert("검색횟수를 입력해주세요.");
+					frm.count.focus();
+				}
+				else
+				{
+					frm.mode.value	= "add";
+					frm.submit();
+				}
+
+			}
+			else if ( no == 1 )
+			{
+				for ( var i = 0; i < frm.elements["delch[]"].length; i++ ) {
+					str	= eval( frm.elements["delch[]"][i] );
+					if( frm.delchall.checked == false )
+					{
+						str.checked		= false;
+					}
+					else if( frm.delchall.checked == true )
+					{
+						str.checked	= true;
+					}
+				}
+
+			}
+			else if ( no == 2 )
+			{
+				rank_max			= frm.elements["keyword[]"].length;
+
+				for(i = 1; i < rank_max; i++)
+				{
+					if( ( frm.elements["keyword[]"][i].value == "" || frm.elements["count[]"][i].value == "" ) && frm.elements["delch[]"][i].checked == false )
+					{
+						if( frm.elements["keyword[]"][i].value == "" )
+						{
+							alert("검색어를 입력하거나 삭제에 체크해주세요.");
+							frm.elements["keyword[]"][i].focus();
+						}
+						else
+						{
+							alert("검색횟수를 입력하거나 삭제에 체크해주세요.");
+							frm.elements["count[]"][i].focus();
+						}
+						return false;
+					}
+				}
+				if ( confirm( "   수정하시겠습니까?   ") )
+				{
+					frm.mode.value	= "modify";
+					frm.submit();
+				}
+			}
+			else
+			{
+				alert('ERROR');
+			}
+		}
+
+	</script>
+
+
+
+
+
+
+	<div class="main_title">
+	실시간 검색어 설정
+	<label style="margin-right:0;">
+	<!-- 검색폼 -->
+		<table border="0" cellspacing="0" cellpadding="0" id="admin_search_frm">
+		<tbody><tr>
+			<td class="input_style_adm"><form><select name="key_year" onchange="this.form.submit()">
+		<option value="">선택</option>
+		<option value="2007">2007 년</option>
+		<option value="2008">2008 년</option>
+		<option value="2009">2009 년</option>
+		<option value="2010">2010 년</option>
+		<option value="2011">2011 년</option>
+		<option value="2012">2012 년</option>
+		<option value="2013">2013 년</option>
+		<option value="2014">2014 년</option>
+		<option value="2015">2015 년</option>
+		<option value="2016">2016 년</option>
+		<option value="2017">2017 년</option>
+		<option value="2018">2018 년</option>
+		<option value="2019">2019 년</option>
+		<option value="2020">2020 년</option>
+		<option value="2021">2021 년</option>
+		<option value="2022">2022 년</option>
+		<option value="2023">2023 년</option>
+		<option value="2024" selected="">2024 년</option>
+</select> <select name="key_mon" onchange="this.form.submit()">
+		<option value="">선택</option>
+		<option value="01">1 월</option>
+		<option value="02" selected="">2 월</option>
+		<option value="03">3 월</option>
+		<option value="04">4 월</option>
+		<option value="05">5 월</option>
+		<option value="06">6 월</option>
+		<option value="07">7 월</option>
+		<option value="08">8 월</option>
+		<option value="09">9 월</option>
+		<option value="10">10 월</option>
+		<option value="11">11 월</option>
+		<option value="12">12 월</option>
+</select> <select name="key_day" onchange="this.form.submit()">
+		<option value="">선택</option>
+		<option value="01">1 일</option>
+		<option value="02">2 일</option>
+		<option value="03">3 일</option>
+		<option value="04">4 일</option>
+		<option value="05">5 일</option>
+		<option value="06">6 일</option>
+		<option value="07">7 일</option>
+		<option value="08">8 일</option>
+		<option value="09">9 일</option>
+		<option value="10">10 일</option>
+		<option value="11">11 일</option>
+		<option value="12">12 일</option>
+		<option value="13">13 일</option>
+		<option value="14">14 일</option>
+		<option value="15">15 일</option>
+		<option value="16">16 일</option>
+		<option value="17">17 일</option>
+		<option value="18">18 일</option>
+		<option value="19">19 일</option>
+		<option value="20">20 일</option>
+		<option value="21">21 일</option>
+		<option value="22">22 일</option>
+		<option value="23">23 일</option>
+		<option value="24" selected="">24 일</option>
+		<option value="25">25 일</option>
+		<option value="26">26 일</option>
+		<option value="27">27 일</option>
+		<option value="28">28 일</option>
+		<option value="29">29 일</option>
+		<option value="30">30 일</option>
+		<option value="31">31 일</option>
+</select> <select name="key_size" onchange="this.form.submit()">
+		<option value="">선택</option>
+		<option value="05">5 개</option>
+		<option value="10">10 개</option>
+		<option value="15" selected="">15 개</option>
+		<option value="20">20 개</option>
+		<option value="25">25 개</option>
+		<option value="30">30 개</option>
+		<option value="35">35 개</option>
+		<option value="40">40 개</option>
+		<option value="45">45 개</option>
+		<option value="50">50 개</option>
+		<option value="55">55 개</option>
+		<option value="60">60 개</option>
+		<option value="65">65 개</option>
+		<option value="70">70 개</option>
+		<option value="75">75 개</option>
+		<option value="80">80 개</option>
+		<option value="85">85 개</option>
+		<option value="90">90 개</option>
+		<option value="95">95 개</option>
+		<option value="100">100 개</option>
+</select></form></td>
+		</tr>
+		</tbody></table>
+	</label>
+</div>
+
+	<!--도움말-->
+	<div class="help_style" style="margin-top: 20px">
+	<div class="box_1">&nbsp;</div>
+	<div class="box_2">&nbsp;</div>
+	<div class="box_3">&nbsp;</div>
+	<div class="box_4">&nbsp;</div>
+	<span class="help">도움말</span>
+	<p class="font-s" style="margin-top:5px;">
+		<img src="./식당 홈페이지 _ 관리자모드_files/img_help_01.gif"><br>
+		- 메인화면에 출력되고 있는 실시간인기검색어의 검색어를 등록합니다. <br>
+		- 통합검색창에서 검색어를 입력할경우 자동으로 횟수가 합산되어 인기검색어에 등록 되지만 관리자가 임의로 지정할 수 도 있습니다.<br>
+		- 검색어 및 검색횟수를 관리자 임의대로 설정해줄수있습니다. 똑같은 검색어를 입력하는경우 상위에 있는검색어에 횟수가 + 포함되며 중복됐던 두번째 검색어는 자동 삭제됩니다. <br>
+		- 개별 삭제 및 다중삭제가 가능하고, 순위변동을 임의대로 조절할 수도 있습니다.
+	</p>
+	</div>
+
+
+	<form name="delete_frm" method="post" action="http://foodf.cgimall.co.kr/admin/product.php?page=&amp;start=" style="padding:0;margin:0;">
+	<input type="hidden" name="idx" value="">
+	<input type="hidden" name="page" value="">
+	</form>
+
+
+	<form name="rank_1" action="http://foodf.cgimall.co.kr/admin/best_keyword_reg.php" method="post" style="margin:0px; padding:0px;">
+	<input type="hidden" name="mode" value="">
+	<input type="hidden" name="key_year" value="2024">
+	<input type="hidden" name="key_mon" value="02">
+	<input type="hidden" name="key_day" value="24">
+	<input type="hidden" name="key_size" value="15">
+	<div id="list_style" style="margin-top:15px;">
+		<table cellspacing="0" cellpadding="0" class="bg_style table_line">
+		<tbody><tr>
+			<th style="width:50px;">순위</th>
+			<th style="width:100px;">순위변동</th>
+			<th style="width:100px;">날짜</th>
+			<th>검색어</th>
+			<th style="width:140px;">검색횟수</th>
+			<th style="width:80px;"><input type="checkbox" name="delchall" id="delchall" value="Y" onclick="sendit(1,this.form)"> 전체</th>
+		</tr>
+
+					<tr>
+					<td style="text-align:center; height:35px;">
+						<input type="hidden" id="prev_keyword[]" name="prev_keyword[1]" value="해피만두">
+						<input type="hidden" id="prev_count[]" name="prev_count[1]" value="104">
+						<span class="font_tahoma">1</span>등
+					</td>
+					<td style="text-align:center;" class="font_tahoma"><font color="red">new</font> </td>
+					<td style="text-align:center;" class="font_tahoma">2023-04-14</td>
+					<td><input type="text" name="keyword[1]" id="keyword[]" value="해피만두" style="width:97%; color:#173fb8; font-weight:bold; border:1px solid #bdbdc0; background:#f3f3f3; padding-left:5px; height:28px; line-height:27px; margin:2px 0;"></td>
+					<td style="text-align:center;"><input type="text" name="count[1]" id="count[]" value="104" style="width:100px; text-align:right; font-weight:bold; color:#c63710; border:1px solid #bdbdc0; background:#f3f3f3; padding-right:5px; height:28px; line-height:27px; margin:2px 0;" onkeypress="if( (event.keyCode&lt;48) || (event.keyCode&gt;57) ) event.returnValue=false;"></td>
+					<td style="text-align:center;"><input type="checkbox" id="delch[]" name="delch[1]" value="Y" style="vertical-align:middle; margin:-1px 0 1px;  cursor:pointer;"> 삭제</td>
+				</tr>
+							<tr>
+					<td style="text-align:center; height:35px;">
+						<input type="hidden" id="prev_keyword[]" name="prev_keyword[2]" value="고기교자">
+						<input type="hidden" id="prev_count[]" name="prev_count[2]" value="4">
+						<span class="font_tahoma">2</span>등
+					</td>
+					<td style="text-align:center;" class="font_tahoma"><font color="red">new</font> </td>
+					<td style="text-align:center;" class="font_tahoma">2023-04-14</td>
+					<td><input type="text" name="keyword[2]" id="keyword[]" value="고기교자" style="width:97%; color:#173fb8; font-weight:bold; border:1px solid #bdbdc0; background:#f3f3f3; padding-left:5px; height:28px; line-height:27px; margin:2px 0;"></td>
+					<td style="text-align:center;"><input type="text" name="count[2]" id="count[]" value="4" style="width:100px; text-align:right; font-weight:bold; color:#c63710; border:1px solid #bdbdc0; background:#f3f3f3; padding-right:5px; height:28px; line-height:27px; margin:2px 0;" onkeypress="if( (event.keyCode&lt;48) || (event.keyCode&gt;57) ) event.returnValue=false;"></td>
+					<td style="text-align:center;"><input type="checkbox" id="delch[]" name="delch[2]" value="Y" style="vertical-align:middle; margin:-1px 0 1px;  cursor:pointer;"> 삭제</td>
+				</tr>
+							<tr>
+					<td style="text-align:center; height:35px;">
+						<input type="hidden" id="prev_keyword[]" name="prev_keyword[3]" value="만두">
+						<input type="hidden" id="prev_count[]" name="prev_count[3]" value="3">
+						<span class="font_tahoma">3</span>등
+					</td>
+					<td style="text-align:center;" class="font_tahoma"><font color="red">new</font> </td>
+					<td style="text-align:center;" class="font_tahoma">2023-04-14</td>
+					<td><input type="text" name="keyword[3]" id="keyword[]" value="만두" style="width:97%; color:#173fb8; font-weight:bold; border:1px solid #bdbdc0; background:#f3f3f3; padding-left:5px; height:28px; line-height:27px; margin:2px 0;"></td>
+					<td style="text-align:center;"><input type="text" name="count[3]" id="count[]" value="3" style="width:100px; text-align:right; font-weight:bold; color:#c63710; border:1px solid #bdbdc0; background:#f3f3f3; padding-right:5px; height:28px; line-height:27px; margin:2px 0;" onkeypress="if( (event.keyCode&lt;48) || (event.keyCode&gt;57) ) event.returnValue=false;"></td>
+					<td style="text-align:center;"><input type="checkbox" id="delch[]" name="delch[3]" value="Y" style="vertical-align:middle; margin:-1px 0 1px;  cursor:pointer;"> 삭제</td>
+				</tr>
+							<tr>
+					<td style="text-align:center; height:35px;">
+						<input type="hidden" id="prev_keyword[]" name="prev_keyword[4]" value="예약하기">
+						<input type="hidden" id="prev_count[]" name="prev_count[4]" value="2">
+						<span class="font_tahoma">4</span>등
+					</td>
+					<td style="text-align:center;" class="font_tahoma"><font color="red">new</font> </td>
+					<td style="text-align:center;" class="font_tahoma">2023-04-14</td>
+					<td><input type="text" name="keyword[4]" id="keyword[]" value="예약하기" style="width:97%; color:#173fb8; font-weight:bold; border:1px solid #bdbdc0; background:#f3f3f3; padding-left:5px; height:28px; line-height:27px; margin:2px 0;"></td>
+					<td style="text-align:center;"><input type="text" name="count[4]" id="count[]" value="2" style="width:100px; text-align:right; font-weight:bold; color:#c63710; border:1px solid #bdbdc0; background:#f3f3f3; padding-right:5px; height:28px; line-height:27px; margin:2px 0;" onkeypress="if( (event.keyCode&lt;48) || (event.keyCode&gt;57) ) event.returnValue=false;"></td>
+					<td style="text-align:center;"><input type="checkbox" id="delch[]" name="delch[4]" value="Y" style="vertical-align:middle; margin:-1px 0 1px;  cursor:pointer;"> 삭제</td>
+				</tr>
+							<tr>
+					<td style="text-align:center; height:35px;">
+						<input type="hidden" id="prev_keyword[]" name="prev_keyword[5]" value="새우쇼마이">
+						<input type="hidden" id="prev_count[]" name="prev_count[5]" value="2">
+						<span class="font_tahoma">5</span>등
+					</td>
+					<td style="text-align:center;" class="font_tahoma"><font color="red">new</font> </td>
+					<td style="text-align:center;" class="font_tahoma">2023-04-14</td>
+					<td><input type="text" name="keyword[5]" id="keyword[]" value="새우쇼마이" style="width:97%; color:#173fb8; font-weight:bold; border:1px solid #bdbdc0; background:#f3f3f3; padding-left:5px; height:28px; line-height:27px; margin:2px 0;"></td>
+					<td style="text-align:center;"><input type="text" name="count[5]" id="count[]" value="2" style="width:100px; text-align:right; font-weight:bold; color:#c63710; border:1px solid #bdbdc0; background:#f3f3f3; padding-right:5px; height:28px; line-height:27px; margin:2px 0;" onkeypress="if( (event.keyCode&lt;48) || (event.keyCode&gt;57) ) event.returnValue=false;"></td>
+					<td style="text-align:center;"><input type="checkbox" id="delch[]" name="delch[5]" value="Y" style="vertical-align:middle; margin:-1px 0 1px;  cursor:pointer;"> 삭제</td>
+				</tr>
+							<tr>
+					<td style="text-align:center; height:35px;">
+						<input type="hidden" id="prev_keyword[]" name="prev_keyword[6]" value="메뉴소개">
+						<input type="hidden" id="prev_count[]" name="prev_count[6]" value="1">
+						<span class="font_tahoma">6</span>등
+					</td>
+					<td style="text-align:center;" class="font_tahoma"><font color="red">new</font> </td>
+					<td style="text-align:center;" class="font_tahoma">2023-04-14</td>
+					<td><input type="text" name="keyword[6]" id="keyword[]" value="메뉴소개" style="width:97%; color:#173fb8; font-weight:bold; border:1px solid #bdbdc0; background:#f3f3f3; padding-left:5px; height:28px; line-height:27px; margin:2px 0;"></td>
+					<td style="text-align:center;"><input type="text" name="count[6]" id="count[]" value="1" style="width:100px; text-align:right; font-weight:bold; color:#c63710; border:1px solid #bdbdc0; background:#f3f3f3; padding-right:5px; height:28px; line-height:27px; margin:2px 0;" onkeypress="if( (event.keyCode&lt;48) || (event.keyCode&gt;57) ) event.returnValue=false;"></td>
+					<td style="text-align:center;"><input type="checkbox" id="delch[]" name="delch[6]" value="Y" style="vertical-align:middle; margin:-1px 0 1px;  cursor:pointer;"> 삭제</td>
+				</tr>
+							<tr>
+					<td style="text-align:center; height:35px;">
+						<input type="hidden" id="prev_keyword[]" name="prev_keyword[7]" value="딤섬">
+						<input type="hidden" id="prev_count[]" name="prev_count[7]" value="1">
+						<span class="font_tahoma">7</span>등
+					</td>
+					<td style="text-align:center;" class="font_tahoma"><font color="red">new</font> </td>
+					<td style="text-align:center;" class="font_tahoma">2023-04-14</td>
+					<td><input type="text" name="keyword[7]" id="keyword[]" value="딤섬" style="width:97%; color:#173fb8; font-weight:bold; border:1px solid #bdbdc0; background:#f3f3f3; padding-left:5px; height:28px; line-height:27px; margin:2px 0;"></td>
+					<td style="text-align:center;"><input type="text" name="count[7]" id="count[]" value="1" style="width:100px; text-align:right; font-weight:bold; color:#c63710; border:1px solid #bdbdc0; background:#f3f3f3; padding-right:5px; height:28px; line-height:27px; margin:2px 0;" onkeypress="if( (event.keyCode&lt;48) || (event.keyCode&gt;57) ) event.returnValue=false;"></td>
+					<td style="text-align:center;"><input type="checkbox" id="delch[]" name="delch[7]" value="Y" style="vertical-align:middle; margin:-1px 0 1px;  cursor:pointer;"> 삭제</td>
+				</tr>
+							<tr>
+					<td style="text-align:center; height:35px;">
+						<input type="hidden" id="prev_keyword[]" name="prev_keyword[8]" value="매장위치">
+						<input type="hidden" id="prev_count[]" name="prev_count[8]" value="1">
+						<span class="font_tahoma">8</span>등
+					</td>
+					<td style="text-align:center;" class="font_tahoma"><font color="red">new</font> </td>
+					<td style="text-align:center;" class="font_tahoma">2023-12-09</td>
+					<td><input type="text" name="keyword[8]" id="keyword[]" value="매장위치" style="width:97%; color:#173fb8; font-weight:bold; border:1px solid #bdbdc0; background:#f3f3f3; padding-left:5px; height:28px; line-height:27px; margin:2px 0;"></td>
+					<td style="text-align:center;"><input type="text" name="count[8]" id="count[]" value="1" style="width:100px; text-align:right; font-weight:bold; color:#c63710; border:1px solid #bdbdc0; background:#f3f3f3; padding-right:5px; height:28px; line-height:27px; margin:2px 0;" onkeypress="if( (event.keyCode&lt;48) || (event.keyCode&gt;57) ) event.returnValue=false;"></td>
+					<td style="text-align:center;"><input type="checkbox" id="delch[]" name="delch[8]" value="Y" style="vertical-align:middle; margin:-1px 0 1px;  cursor:pointer;"> 삭제</td>
+				</tr>
+							<tr>
+					<td style="text-align:center; height:35px;">
+						<input type="hidden" id="prev_keyword[]" name="prev_keyword[9]" value="공지사항">
+						<input type="hidden" id="prev_count[]" name="prev_count[9]" value="1">
+						<span class="font_tahoma">9</span>등
+					</td>
+					<td style="text-align:center;" class="font_tahoma"><font color="red">new</font> </td>
+					<td style="text-align:center;" class="font_tahoma">2023-04-14</td>
+					<td><input type="text" name="keyword[9]" id="keyword[]" value="공지사항" style="width:97%; color:#173fb8; font-weight:bold; border:1px solid #bdbdc0; background:#f3f3f3; padding-left:5px; height:28px; line-height:27px; margin:2px 0;"></td>
+					<td style="text-align:center;"><input type="text" name="count[9]" id="count[]" value="1" style="width:100px; text-align:right; font-weight:bold; color:#c63710; border:1px solid #bdbdc0; background:#f3f3f3; padding-right:5px; height:28px; line-height:27px; margin:2px 0;" onkeypress="if( (event.keyCode&lt;48) || (event.keyCode&gt;57) ) event.returnValue=false;"></td>
+					<td style="text-align:center;"><input type="checkbox" id="delch[]" name="delch[9]" value="Y" style="vertical-align:middle; margin:-1px 0 1px;  cursor:pointer;"> 삭제</td>
+				</tr>
+							<tr>
+					<td style="text-align:center; height:35px;">
+						<input type="hidden" id="prev_keyword[]" name="prev_keyword[10]" value="사천교자">
+						<input type="hidden" id="prev_count[]" name="prev_count[10]" value="1">
+						<span class="font_tahoma">10</span>등
+					</td>
+					<td style="text-align:center;" class="font_tahoma"><font color="red">new</font> </td>
+					<td style="text-align:center;" class="font_tahoma">2023-04-14</td>
+					<td><input type="text" name="keyword[10]" id="keyword[]" value="사천교자" style="width:97%; color:#173fb8; font-weight:bold; border:1px solid #bdbdc0; background:#f3f3f3; padding-left:5px; height:28px; line-height:27px; margin:2px 0;"></td>
+					<td style="text-align:center;"><input type="text" name="count[10]" id="count[]" value="1" style="width:100px; text-align:right; font-weight:bold; color:#c63710; border:1px solid #bdbdc0; background:#f3f3f3; padding-right:5px; height:28px; line-height:27px; margin:2px 0;" onkeypress="if( (event.keyCode&lt;48) || (event.keyCode&gt;57) ) event.returnValue=false;"></td>
+					<td style="text-align:center;"><input type="checkbox" id="delch[]" name="delch[10]" value="Y" style="vertical-align:middle; margin:-1px 0 1px;  cursor:pointer;"> 삭제</td>
+				</tr>
+			
+	</tbody></table>
+
+		<div align="center"><input type="button" value="실시간검색어저장" alt="실시간검색어저장" title="실시간검색어저장" class="btn_big_round" onclick="sendit(&#39;2&#39;,this.form)"></div>
+	
+
+
+	<div class="main_title" style="margin-top:50px;">실시간검색어 추가</div>
+
+	<form method="post" action="http://foodf.cgimall.co.kr/admin/best_keyword_reg.php">
+	<input type="hidden" name="mode" value="add">
+	<input type="hidden" name="key_year" value="2024">
+	<input type="hidden" name="key_mon" value="02">
+	<input type="hidden" name="key_day" value="24">
+	<input type="hidden" name="key_size" value="15">
+
+	<div id="box_style">
+	<div class="box_1"></div>
+	<div class="box_2"></div>
+	<div class="box_3"></div>
+	<div class="box_4"></div>
+
+	<table cellspacing="0" cellpadding="0" style="border:1px solid #dedede; width:100%;">
+	<tbody><tr>
+		<th style="width:18%; background:#f1f1f1; color:#121212; border-bottom:1px solid #dedede;">검색어</th>
+		<td style=" border-bottom:1px solid #dedede;">
+			<p class="short">새로운 키워드를 입력합니다.</p>
+			<input type="text" name="keyword" style="width:200px;">
+		</td>
+	</tr>
+	<tr>
+		<th style="background:#f1f1f1; color:#121212; border-bottom:1px solid #dedede;">검색횟수</th>
+		<td style="border-bottom:1px solid #dedede;">
+			<p class="short">키워드의 검색횟수를 임의 지정 합니다.</p>
+			<input type="text" name="count" style="width:80px;" onkeypress="if( (event.keyCode&lt;48) || (event.keyCode&gt;57) ) event.returnValue=false;">
+		</td>
+	</tr>
+	<tr>
+		<th style=" background:#f1f1f1; color:#121212; border-bottom:1px solid #dedede;">안내내용</th>
+		<td class="font_12" style="line-height:19px; border-bottom:1px solid #dedede;">
+			검색횟수 조절시 정확한 숫자로 업데이트 되지 않을수 있습니다.<br>
+			만약 실시간검색어 출력 기간설정에서 3일로 설정이 되어있는데 7건으로 어떤 검색어를 변경했을경우...<br>
+			7 / 3 -&gt; 2.3333 으로 반올림하여 3건씩 균등 업그레이드되어 3건씩 3일은 9건으로 저장됩니다.
+		</td>
+	</tr>
+	</tbody></table>
+
+	</div>
+
+	<div align="center" style="margin-bottom:20px;"><input type="button" value="검색어 등록하기" class="btn_big_round" onclick="sendit(0,this.form)"></div>
+	</form>
+
+
+
+
+
+
+
+
+
+
+<!-- 매물폼디자인 관리메뉴일 경우 좌측메뉴 없앤형태로 출력 -->
+
+			</div></form></td>
+			<td style="background:url(&#39;img/bgbox_02_v3_b.gif&#39;)"></td>
+		</tr>
+
+
+
+		<!-- BOTTOM -->
+		<tr>
+			<!-- 좌측  -->
+			<td height="36" style="background:url(&#39;img/bgbox_02_v1_c2.gif&#39;) no-repeat 0 0;">
+			</td>
+
+			<!-- 우측 -->
+			<td style="background:url(&#39;img/bgbox_02_v2_c.gif&#39;);">&nbsp;</td>
+			<td style="background:url(&#39;img/bgbox_02_v3_c.gif&#39;) no-repeat 0 0;"></td>
+		</tr>
+		</tbody></table>
+
+	</td>
+</tr>
+</tbody></table>
+
+
+
+
+
+
+<style type="text/css">
+	/* PNG 투명적용 : 이미지일 경우 */
+	/*.png24img{_behavior:url(/css/iepngfix.htc);}*/
+</style>
+
+
+
+<!-- 하단 : 카피라이트 -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" id="cntWrapperTable2">
+<tbody><tr>
+	<td height="80" style="background:url(&#39;img/bg_copyright.gif&#39;) repeat-x; padding:12 0 10 0;">
+
+		<div style="float:right; width:50px; height:0;"><div style="position:absolute; width:50; height:10;"><a href="http://foodf.cgimall.co.kr/admin/best_keyword.php#top"><img src="./식당 홈페이지 _ 관리자모드_files/btn_top.gif" border="0"></a></div></div>
+		<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+		<tbody><tr>
+			<td valign="middle" style="padding:0 0 0 10px;"><img src="./식당 홈페이지 _ 관리자모드_files/copyright01.gif" border="0" usemap="#customer_center"></td>
+			<td align="right">
+				<table border="0" cellspacing="0" cellpadding="0">
+				<tbody><tr>
+					<td style="padding-right:15px"><a href="http://foodf.cgimall.co.kr/" target="_blank"><img src="./식당 홈페이지 _ 관리자모드_files/admin_logo.png" border="0"></a></td>
+				</tr>
+				</tbody></table>
+			</td>
+			<!-- <td align="right"><A HREF="http://foodf.cgimall.co.kr" target="_blank"><img src="http://foodf.cgimall.co.kr/img/info_logo.gif" border="0"></A></td> -->
+		</tr>
+		</tbody></table>
+
+		<map name="customer_center" id="customer_center">
+			<area shape="rect" coords="3,2,226,30" href="http://www.cgimall.co.kr/bbs_list.php?category=&amp;tb=board_tech_qna" target="_blank">	<!-- 문의게시판 -->
+		</map>
+	</td>
+</tr>
+</tbody></table>
+
+</div>
+
+
+
+
+
+<!-- 서브메뉴판 가로크기를 본문테이블 크기변화가 있을 때마다 새로 가로크기 설정해주기 [YOON : 2010-04-08] -->
+<script language="JavaScript">
+<!--
+	var cntTable		= document.getElementById('cntWrapperTable');
+	var cntTable2		= document.getElementById('cntWrapperTable2'); //하단카피라이트 배경그림자
+	var subMenu			= document.getElementById('admin_sub_menu_wrapper');
+	var subMenuBg			= document.getElementById('admin_sub_menu_bg');
+	var cntTableWidth	= "";
+
+	var FF = (document.layers) ? 1 : 0; // FF?
+	var IE = (document.all) ? 1 : 0; // 익스플로러?
+
+	function cntTableSize(){
+		cntTableWidth = cntTable.clientWidth;
+		//alert(cntTableWidth);
+		cntTable.onresize = function() { cntTableSize(); };
+
+		if(subMenu != null)
+			subMenu.style.width = cntTableWidth;
+		if(subMenuBg != null)
+			subMenuBg.style.width = cntTableWidth;
+		if(cntTable2 != null)
+			cntTable2.style.width = cntTableWidth;
+	}
+
+	//cntTableSize();
+
+//-->
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</div></div><a id="lbLauncher" class="lytebox" style="display: none;"></a><div id="lbOverlay" class="grey" style="display: none;"></div><div id="lbMain" style="display: none;"><div id="lbOuterContainer" class="grey" style="border-radius: 8px;"><div id="lbTopContainer" class="grey" style="border-radius: 8px;"><div id="lbTopData" class="grey"><span id="lbTitleTop"></span><span id="lbNumTop"></span></div><div id="lbTopNav"><a id="lbCloseTop" title="Close (Esc)" class="grey" href="javascript:void(0)"></a><a id="lbPrintTop" title="Print" class="grey" href="javascript:void(0)"></a><a id="lbNextTop" title="Next (→)" class="grey" href="javascript:void(0)"></a><a id="lbPauseTop" title="Pause (spacebar)" class="grey" href="javascript:void(0)" style="display: none;"></a><a id="lbPlayTop" title="Play (spacebar)" class="grey" href="javascript:void(0)" style="display: none;"></a><a id="lbPrevTop" title="Previous (←)" class="grey" href="javascript:void(0)"></a></div></div><div id="lbIframeContainer" style="display: none;"><iframe id="lbIframe" name="lbIframe" frameborder="0" class="grey" style="display: none;" src="./식당 홈페이지 _ 관리자모드_files/saved_resource.html"></iframe></div><div id="lbImageContainer"><img id="lbImage" class="grey"><div id="lbHoverNav"><a id="lbPrevHov" title="Previous (←)" class="grey" href="javascript:void(0)"></a><a id="lbNextHov" title="Next (→)" class="grey" href="javascript:void(0)"></a></div></div><div id="lbLoading" class="grey"></div><div id="lbBottomContainer" class="grey" style="border-radius: 8px;"><div id="lbBottomData" class="grey"><span id="lbTitleBottom"></span><span id="lbNumBottom"></span><span id="lbDescBottom"></span></div><div id="lbBottomNav"><a id="lbClose" title="Close (Esc)" class="grey" href="javascript:void(0)"></a><a id="lbPrint" title="Print" class="grey" href="javascript:void(0)" style="display: none;"></a><a id="lbNext" title="Next (→)" class="grey" href="javascript:void(0)"></a><a id="lbPause" title="Pause (spacebar)" class="grey" href="javascript:void(0)" style="display: none;"></a><a id="lbPlay" title="Play (spacebar)" class="grey" href="javascript:void(0)" style="display: none;"></a><a id="lbPrev" title="Previous (←)" class="grey" href="javascript:void(0)"></a></div></div></div></div></body></html>
