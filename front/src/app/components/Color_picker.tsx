@@ -6,17 +6,19 @@ interface ColorPickerProps {
   defaultValue: string;
 }
 
-export default function ColorPicker({size, defaultValue}:ColorPickerProps) (
+export default function ColorPick({size, defaultValue}:ColorPickerProps) {
   return (
-    <Space>
-      <Space direction="vertical">
-        <ColorPicker defaultValue="#1677ff" size="small" />
-        <ColorPicker defaultValue="#1677ff" />
-        <ColorPicker defaultValue="#1677ff" size="large" />
+    <div>
+      <Space>
+        <Space direction="vertical">
+          <ColorPicker defaultValue="#1677ff" size="small" />
+          <ColorPicker defaultValue="#1677ff" />
+          <ColorPicker defaultValue="#1677ff" size="large" />
+        </Space>
+        <Space direction="vertical">
+          <ColorPicker defaultValue="#1677ff" size={size} showText />
+        </Space>
       </Space>
-      <Space direction="vertical">
-        <ColorPicker defaultValue="#1677ff" size={size} showText />
-      </Space>
-    </Space>
+    </div>
   );
-);
+}
