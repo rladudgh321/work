@@ -89,7 +89,7 @@ const items: MenuProps['items']= [
             key: 'design_PC_2',
           },
           {
-            label: '메인페이지 본문 설정',
+            label: <Link href={'/admin/design-setting/pc/main-body'}>메인페이지 본문 설정</Link>,
             key: 'design_PC_3',
           },
           {
