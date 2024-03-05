@@ -1,12 +1,14 @@
 "use client"
 
-import { Button, Form } from "antd";
+import { Button, Form, Upload } from "antd";
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { SlPicture } from "react-icons/sl";
 import { PiLinkLight } from "react-icons/pi";
 import { ImFontSize } from "react-icons/im";
 import { TfiTag } from "react-icons/tfi";
+import ColorPick from "@/components/Color_picker";
+import UploadComponent from "@/components/Upload";
 
 interface Inputs {
   about_select_box?: boolean;
@@ -81,39 +83,26 @@ export default function MainBody() {
         </fieldset>
         <div>
           <div className="border border-slate-600 mt-10">
-            <div className="flex mt-10">
-              <div className="w-24 flex-shrink-0 my-auto">네이버톡톡</div>
-              <div>
-                <div>
-                  <fieldset className="border-[1px] border-gray-500 p-5 m-5">
-                    <legend className="text-center">길잡이: 관련사이트 설정</legend>
-                    내 웹사이트가 이러한 웹사이트와 관련되어 있으며 사용자들에게 바로가기를 제공해줍니다
-                    이는 마치 내 웹사이트가 관련 웹사이트와 제휴를 맺는 듯한 효과를 주는 디테일한 작업입니다
-                    <br /><br />
-                    {[...Array(3)].map((v,i) => (`${i+1}개 관련사진`))}
-                  </fieldset>
+            <div className="flex mt-10 w-48">
+              <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(색상)</div>
+              <div className="flex p-10 border border-slate-500">
+                <div className="w-60 ">메인배경색상</div>
+                <div className="flex gap-4 ">
+                  <div className="w-10">색상</div>
+                  <ColorPick size="small" defaultValue="#f0f0f0" />
                 </div>
-                <div className="flex gap-x-4 mt-10">
-                  <div className="flex">
-                    <label className="w-32 flex-shrink-0" htmlFor="abuout_displayName">첫 디스플레이 제목</label>
-                    <input type="text" value={'관련 사이트'} id="abuout_displayName" {...register("abuout_displayName")} />
+              </div>
+            </div>
+            <div className="flex my-10 w-48">
+              <div className="w-24 flex-shrink-0 my-auto p-4">이미지 설정(링크X)</div>
+              <div className="flex p-10 border border-slate-500">
+                <div className="w-60 ">메인배경이미지1</div>
+                <div className="flex flex-col">
+                  <div>
+                    <div>파일 첨부</div>
+                    <UploadComponent />
                   </div>
-                </div>
-                <div className="flex mt-5">
-                  <div className="w-32 flex-shrink-0">사용 여부</div>
-                  <div className="flex gap-x-4">
-                    <div>
-                      <input type="radio" id="셀렉트박스 사용" value='셀렉트박스 사용' {...register("about_select_box", { required: true })} />
-                      <label htmlFor="셀렉트박스 사용">사용</label>
-                    </div>
-                    <div>
-                      <input type="radio" id="셀렉트박스 미사용" value='셀렉트박스 미사용' {...register("about_select_box", { required: true })} />
-                      <label htmlFor="셀렉트박스 미사용">미사용</label>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <textarea rows={7} {...register("about_text")} className="w-10/12 mt-3 bg-slate-300"></textarea>
+                  <div>권장 이미지 사이즈 1920 x 404</div>
                 </div>
               </div>
             </div>

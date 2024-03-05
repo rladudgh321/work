@@ -3,21 +3,14 @@ import { ColorPicker, Space } from 'antd';
 
 interface ColorPickerProps {
   size?: 'small' | 'large';
-  defaultValue: string;
+  defaultValue: string; // #1677ff
 }
 
 export default function ColorPick({size, defaultValue}:ColorPickerProps) {
   return (
     <div>
-      <Space>
-        <Space direction="vertical">
-          <ColorPicker defaultValue="#1677ff" size="small" />
-          <ColorPicker defaultValue="#1677ff" />
-          <ColorPicker defaultValue="#1677ff" size="large" />
-        </Space>
-        <Space direction="vertical">
-          <ColorPicker defaultValue="#1677ff" size={size} showText />
-        </Space>
+      <Space direction="vertical">
+        <ColorPicker defaultValue={defaultValue} size={size} showText />
       </Space>
     </div>
   );
