@@ -85,7 +85,7 @@ const items: MenuProps['items']= [
             key: 'design_PC_1',
           },
           {
-            label: '상단 설정',
+            label: <Link href={'/admin/design-setting/pc/up_banner'}>상단 설정</Link>,
             key: 'design_PC_2',
           },
           {
