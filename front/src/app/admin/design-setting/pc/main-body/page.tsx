@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Form, Upload } from "antd";
+import { Button, Form } from "antd";
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { SlPicture } from "react-icons/sl";
@@ -8,7 +8,7 @@ import { PiLinkLight } from "react-icons/pi";
 import { ImFontSize } from "react-icons/im";
 import { TfiTag } from "react-icons/tfi";
 import ColorPick from "@/components/Color_picker";
-import UploadComponent from "@/components/Upload";
+import Image_setting from "@/components/Image_setting";
 
 interface Inputs {
   about_select_box?: boolean;
@@ -83,26 +83,23 @@ export default function MainBody() {
         </fieldset>
         <div>
           <div className="border border-slate-600 mt-10">
-            <div className="flex mt-10 w-48">
+          <div className="flex mt-10 w-48">
               <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(색상)</div>
-              <div className="flex p-10 border border-slate-500">
-                <div className="w-60 ">메인배경색상</div>
-                <div className="flex gap-4 ">
-                  <div className="w-10">색상</div>
-                  <ColorPick size="small" defaultValue="#f0f0f0" />
+              <div>
+                <div className="flex p-10 border border-slate-500 my-4">
+                  <div className="w-60 ">배경색상</div>
+                  <div className="flex gap-4 ">
+                    <div className="w-10">색상</div>
+                    <ColorPick size="small" defaultValue="#f0f0f0" />
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="flex my-10 w-48">
-              <div className="w-24 flex-shrink-0 my-auto p-4">이미지 설정(링크X)</div>
-              <div className="flex p-10 border border-slate-500">
-                <div className="w-60 ">메인배경이미지1</div>
-                <div className="flex flex-col">
-                  <div>
-                    <div>파일 첨부</div>
-                    <UploadComponent />
-                  </div>
-                  <div>권장 이미지 사이즈 1920 x 404</div>
+            <div className="flex mt-10 w-full"> {/* 복사구간 */}
+              <div className="w-24 flex-shrink-0 my-auto p-4">이미지설정(링크X)</div>
+              <div className="w-auto">
+                <div>
+                  <Image_setting title="카피라이터이미지" recommendSize="455 x 54" />
                 </div>
               </div>
             </div>

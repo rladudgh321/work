@@ -81,7 +81,7 @@ const items: MenuProps['items']= [
         label: 'pc디자인 설정',
         children: [
           {
-            label: '메인페이지 설정',
+            label: <Link href={'/admin/design-setting/pc/type'}>영역별 디자인 설정(PC)</Link>,
             key: 'design_PC_1',
           },
           {
@@ -97,7 +97,7 @@ const items: MenuProps['items']= [
             key: 'design_PC_4',
           },
           {
-            label: '하단 설정',
+            label: <Link href={`/admin/design-setting/pc/down_banner`}>하단 설정</Link>,
             key: 'design_PC_5',
           },
         ],
