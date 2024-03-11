@@ -1,0 +1,68 @@
+// happyStartRequest(아작스링크주소 , 호출후에 반환값을 받을 함수명)
+// 예제) happyStartRequest('area.php?mode=get&si=3' , 'area_select')
+	var happyRequest;
+	var happyHandleFunction	= '';
+	var happyResponse = '';
+
+
+
+
+	function happyStartRequest( linkUrl, handleFunc )
+	{
+		//alert(linkUrl);
+		if (window.XMLHttpRequest)
+		{
+			happyRequest = new XMLHttpRequest();
+		}
+		else
+		{
+			happyRequest = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+
+		happyHandleFunction	= handleFunc;
+		happyRequest.open("GET", linkUrl , true);
+		happyRequest.onreadystatechange = happyHandleStateChange;
+		happyRequest.send(null);
+	}
+
+
+	function happyStartRequestPost( linkUrl, sendData, handleFunc )
+	{
+		if (window.XMLHttpRequest)
+		{
+			happyRequest = new XMLHttpRequest();
+		}
+		else
+		{
+			happyRequest = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+
+		happyHandleFunction	= handleFunc;
+		happyRequest.open("POST", linkUrl , true);
+		happyRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+		happyRequest.onreadystatechange = happyHandleStateChange;
+		happyRequest.send(sendData);
+	}
+
+
+
+	function happyHandleStateChange()
+	{
+		if (happyRequest.readyState == 4)
+		{
+			//alert(happyRequest.status);
+			if (happyRequest.status == 200)
+			{
+				var response = happyRequest.responseText;
+				happyResponse	= response;
+				//alert(happyHandleFunction);
+				window.status="전송완료"
+				eval(happyHandleFunction +"()");
+			}
+		}
+		if (happyRequest.readyState == 1)  {
+			window.status="로딩중"
+		}
+	}
+
+

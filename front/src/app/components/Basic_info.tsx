@@ -12,7 +12,7 @@ export default function Basic_info() {
         </div>
         <div className="flex border-b-slate-400 border-b-[1px] p-4">
           <div className="basis-40">이름/아이디</div>
-          <div>홍길동</div>
+          <div>홍길동d</div>
         </div>
         <div className="flex border-b-slate-400 border-b-[1px] p-4">
           <div className="basis-40">이메일</div>
