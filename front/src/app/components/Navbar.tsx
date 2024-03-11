@@ -93,7 +93,7 @@ const items: MenuProps['items']= [
             key: 'design_PC_3',
           },
           {
-            label: '공통영역 디자인 설정',
+            label: <Link href={'/admin/design-setting/pc/common'}>공통영역 디자인 설정</Link>,
             key: 'design_PC_4',
           },
           {
