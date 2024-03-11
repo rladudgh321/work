@@ -91,21 +91,21 @@ export default function UpBanner() {
               <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(색상)</div>
               <div>
                 <div className="flex p-10 border border-slate-500 my-4">
-                  <div className="w-60 text-center">서브메뉴탭<br />선택글자색상</div>
+                  <div className="w-60 text-center">서브탭메뉴라인색상</div>
                   <div className="flex gap-4 ">
                     <div className="w-10">색상</div>
                     <ColorPick size="small" defaultValue="#f0f0f0" />
                   </div>
                 </div>
                 <div className="flex p-10 border border-slate-500 my-4">
-                  <div className="w-60  text-center">서브메뉴탭<br />선택되지않은라인색상</div>
+                  <div className="w-60  text-center">서브탭메뉴on배경색</div>
                   <div className="flex gap-4 ">
                     <div className="w-10">색상</div>
                     <ColorPick size="small" defaultValue="#f0f0f0" />
                   </div>
                 </div>
                 <div className="flex p-10 border border-slate-500">
-                  <div className="w-60  text-center">서브메뉴탭<br />선택되지않은배경</div>
+                  <div className="w-60  text-center">서브탭메뉴off배경색</div>
                   <div className="flex gap-4 ">
                     <div className="w-10">색상</div>
                     <ColorPick size="small" defaultValue="#f0f0f0" />
@@ -117,12 +117,9 @@ export default function UpBanner() {
               <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(색상, 크기)</div>
               <div>
                 <div>
-                  <ColorPickerAndFontSize title="서브 작은타이틀" />
-                  <ColorPickerAndFontSize title="현재위치글자" />
-                </div>
-                <div>
-                  <ColorPickerAndFontSize title="서브메뉴글자" />
-                  <ColorPickerAndFontSize title="서브메뉴글자선택" />
+                  <ColorPickerAndFontSize title="서브탭메뉴타이틀" />
+                  <ColorPickerAndFontSize title="서브탭메뉴텍스트on" />
+                  <ColorPickerAndFontSize title="서브탭메뉴텍스트off" />
                 </div>
               </div>
             </div>
@@ -131,25 +128,34 @@ export default function UpBanner() {
               <div className="w-24 flex-shrink-0 my-auto p-4">이미지설정(링크X)</div>
               <div className="w-auto">
                 <div>
-                  <Image_setting title="현재위치 아이콘" recommendSize="12 x 12" />
+                  <Image_setting title="회원가입" recommendSize="163 x 54" />
                 </div>
                 <div>
-                  <Image_setting title='마이페이지 상단타이틀 이미지' recommendSize="1920 x 335" />
+                  <Image_setting title='검색더보기' recommendSize="189 x 55" />
                 </div>
                 <div>
-                  <Image_setting title="통합검색페이지 상단타이틀 이미지" recommendSize="1920 x 335" />
+                  <Image_setting title="페이지바로가기" recommendSize="187 x 54" />
                 </div>
                 <div>
-                  <Image_setting title="외부링크 상단타이틀 이미지" recommendSize="1920 x 335" />
+                  <Image_setting title="선택삭제" recommendSize="123 x 55" />
                 </div>
                 <div>
-                  <Image_setting title="로그인 상단타이틀 이미지" recommendSize="1920 x 335" />
+                  <Image_setting title="삭제" recommendSize="83 x 55" />
                 </div>
                 <div>
-                  <Image_setting title="회원가입 상단타이틀 이미지" recommendSize="1920 x 335" />
+                  <Image_setting title="최종수정일" recommendSize="27 x 27" />
                 </div>
                 <div>
-                  <Image_setting title="마이페이지 좌측" recommendSize="200 x 131" />
+                  <Image_setting title="전체메뉴닫기상단" recommendSize="35 x 34" />
+                </div>
+                <div>
+                  <Image_setting title="평가하기" recommendSize="541 x 75" />
+                </div>
+                <div>
+                  <Image_setting title="쪽지함" recommendSize="31 x 22" />
+                </div>
+                <div>
+                  <Image_setting title="문의" recommendSize="83 x 54" />
                 </div>
               </div>
             </div>

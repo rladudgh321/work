@@ -1,16 +1,15 @@
 "use client"
 
-import { Button, Form, InputNumber, Upload } from "antd";
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { SlPicture } from "react-icons/sl";
-import { PiLinkLight } from "react-icons/pi";
-import { ImFontSize } from "react-icons/im";
-import { TfiTag } from "react-icons/tfi";
-import ColorPick from "@/components/Color_picker";
-import UploadComponent from "@/components/Upload";
 import ColorPickerAndFontSize from "@/components/ColorPickerAndFontSize";
+import ColorPick from "@/components/Color_picker";
 import Image_setting from "@/components/Image_setting";
+import { Button, Form } from "antd";
+import { useForm } from 'react-hook-form';
+import { ImFontSize } from "react-icons/im";
+import { PiLinkLight } from "react-icons/pi";
+import { SlPicture } from "react-icons/sl";
+import { TfiTag } from "react-icons/tfi";
+import { toast } from 'react-toastify';
 
 interface Inputs {
   about_select_box?: boolean;
@@ -36,7 +35,7 @@ export default function UpBanner() {
     })}>
       <div className="md:max-w-4xl mx-auto mt-10">
         <fieldset className="border-slate-600 border-[1px] p-4" >
-          <legend className="text-center p-2">메인페이지 본문 영역 디자인</legend>
+          <legend className="text-center p-2">모바일 상단 영역 디자인</legend>
           <div>
             <ul>
               <li className="flex gap-x-4 mb-6">
@@ -90,7 +89,6 @@ export default function UpBanner() {
           <div className="border border-slate-600 mt-10">
             <div className="flex mt-10 w-48">
               <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(색상)</div>
-              <div>
                 <div className="flex p-10 border border-slate-500 my-4">
                   <div className="w-60 ">대표색상</div>
                   <div className="flex gap-4 ">
@@ -98,29 +96,13 @@ export default function UpBanner() {
                     <ColorPick size="small" defaultValue="#f0f0f0" />
                   </div>
                 </div>
-                <div className="flex p-10 border border-slate-500">
-                  <div className="w-60 ">서브메뉴over배경색상</div>
-                  <div className="flex gap-4 ">
-                    <div className="w-10">색상</div>
-                    <ColorPick size="small" defaultValue="#f0f0f0" />
-                  </div>
-                </div>
-              </div>
             </div>
             <div className="flex mt-10 w-48"> {/* 복사구간 */}
               <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(색상, 크기)</div>
               <div>
                 <div>
-                  <ColorPickerAndFontSize title="상단메뉴over색상/크기" />
-                  <ColorPickerAndFontSize title="상단메뉴out색상/크기" />
-                </div>
-                <div>
-                  <ColorPickerAndFontSize title="전체보기out색상/크기" />
-                  <ColorPickerAndFontSize title="전체보기over색상/크기" />
-                </div>
-                <div>
-                  <ColorPickerAndFontSize title="서브메뉴out색상/크기" />
-                  <ColorPickerAndFontSize title="서브메뉴over색상/크기" />
+                  <ColorPickerAndFontSize title="대메뉴" />
+                  <ColorPickerAndFontSize title="서브메뉴" />
                 </div>
               </div>
             </div>
@@ -129,70 +111,16 @@ export default function UpBanner() {
               <div className="w-24 flex-shrink-0 my-auto p-4">이미지설정(링크X)</div>
               <div className="w-auto">
                 <div>
-                  <Image_setting title="로고" recommendSize="229 X 46" />
+                  <Image_setting title="로고" recommendSize="229 x 46" />
                 </div>
                 <div>
-                  <Image_setting title="SMS상담" recommendSize="74 x 105" />
+                  <Image_setting title="상단배경" recommendSize="1 x 100" />
                 </div>
                 <div>
-                  <Image_setting title="출석체크" recommendSize="39 x 10" />
+                  <Image_setting title="전체보기아이콘" recommendSize="100 x 100" />
                 </div>
                 <div>
-                  <Image_setting title="시작페이지로" recommendSize="53 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="현재접속자" recommendSize="50 x 10" />
-                </div>
-                <div>
-                  <Image_setting title="모바일아이콘" recommendSize="74 x 27" />
-                </div>
-                <div>
-                  <Image_setting title="즐겨찾기" recommendSize="66 x 12" />
-                </div>
-                <div>
-                  <Image_setting title="설문조사" recommendSize="39 x 10" />
-                </div>
-                <div>
-                  <Image_setting title="로그인" recommendSize="32 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="로그아웃" recommendSize="44 x 12" />
-                </div>
-                <div>
-                  <Image_setting title="회원가입" recommendSize="43 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="마이페이지" recommendSize="52 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="메세지" recommendSize="43 x 12" />
-                </div>
-                <div>
-                  <Image_setting title="사이트맵" recommendSize="43 x 12" />
-                </div>
-                <div>
-                  <Image_setting title="검색버튼" recommendSize="11 x 12" />
-                </div>
-                <div>
-                  <Image_setting title="검색배경" recommendSize="123 x 18" />
-                </div>
-                <div>
-                  <Image_setting title="상단배경이미지1" recommendSize="free x free" />
-                </div>
-                <div>
-                  <Image_setting title="상단배경이미지2" recommendSize="free x free" />
-                </div>
-                <div>
-                  <Image_setting title="전체메뉴배경이미지" recommendSize="free x free" />
-                </div>
-                <div>
-                  <Image_setting title="메뉴더보기버튼" recommendSize="16 x 15" />
-                </div>
-                <div>
-                  <Image_setting title="인기검색어" recommendSize="48 x 10" />
-                </div>
-                <div>
-                  <Image_setting title="상단라인배경이미지" recommendSize="1x96" />
+                  <Image_setting title="통합검색아이콘" recommendSize="100 x 100" />
                 </div>
               </div>
             </div>

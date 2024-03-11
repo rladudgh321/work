@@ -107,23 +107,19 @@ const items: MenuProps['items']= [
         label: '모바일 설정',
         children: [
           {
-            label: '메인페이지 설정',
+            label: <Link href={'/admin/design-setting/mobile/up_banner'}>영역별 디자인 설정(Mobile)</Link>,
             key: 'design_M_M_1',
           },
           {
-            label: '상단 설정',
+            label: <Link href={'/admin/design-setting/mobile/up_banner'}>상단 설정</Link>,
             key: 'design_M_2',
           },
           {
-            label: '메인페이지 본문 설정',
-            key: 'design_M_3',
-          },
-          {
-            label: '공통영역 디자인 설정',
+            label: <Link href={'/admin/design-setting/mobile/common'}>공통영역 디자인 설정</Link>,
             key: 'design_M_4',
           },
           {
-            label: '하단 설정',
+            label: <Link href={`/admin/design-setting/mobile/down_banner`}>하단 설정</Link>,
             key: 'design_M_5',
           },
         ],

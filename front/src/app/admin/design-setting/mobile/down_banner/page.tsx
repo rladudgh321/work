@@ -1,16 +1,15 @@
 "use client"
 
-import { Button, Form, InputNumber, Upload } from "antd";
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { SlPicture } from "react-icons/sl";
-import { PiLinkLight } from "react-icons/pi";
-import { ImFontSize } from "react-icons/im";
-import { TfiTag } from "react-icons/tfi";
-import ColorPick from "@/components/Color_picker";
-import UploadComponent from "@/components/Upload";
 import ColorPickerAndFontSize from "@/components/ColorPickerAndFontSize";
+import ColorPick from "@/components/Color_picker";
 import Image_setting from "@/components/Image_setting";
+import { Button, Form } from "antd";
+import { useForm } from 'react-hook-form';
+import { ImFontSize } from "react-icons/im";
+import { PiLinkLight } from "react-icons/pi";
+import { SlPicture } from "react-icons/sl";
+import { TfiTag } from "react-icons/tfi";
+import { toast } from 'react-toastify';
 
 interface Inputs {
   about_select_box?: boolean;
@@ -36,7 +35,7 @@ export default function DownBanner() {
     })}>
       <div className="md:max-w-4xl mx-auto mt-10">
         <fieldset className="border-slate-600 border-[1px] p-4" >
-          <legend className="text-center p-2">하단 영역 디자인</legend>
+          <legend className="text-center p-2">모바일 하단 영역 디자인</legend>
           <div>
             <ul>
               <li className="flex gap-x-4 mb-6">
@@ -89,10 +88,10 @@ export default function DownBanner() {
         <div>
           <div className="border border-slate-600 mt-10">
             <div className="flex mt-10 w-48">
-              <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(색상)</div>
+              <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(텍스트,색상,크기)</div>
               <div>
                 <div className="flex p-10 border border-slate-500 my-4">
-                  <div className="w-60 ">배경색상</div>
+                  <div className="w-60 ">이용약관</div>
                   <div className="flex gap-4 ">
                     <div className="w-10">색상</div>
                     <ColorPick size="small" defaultValue="#f0f0f0" />
