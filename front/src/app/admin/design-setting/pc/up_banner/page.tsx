@@ -1,16 +1,15 @@
 "use client"
 
-import { Button, Form, InputNumber, Upload } from "antd";
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
-import { SlPicture } from "react-icons/sl";
-import { PiLinkLight } from "react-icons/pi";
-import { ImFontSize } from "react-icons/im";
-import { TfiTag } from "react-icons/tfi";
-import ColorPick from "@/components/Color_picker";
-import UploadComponent from "@/components/Upload";
 import ColorPickerAndFontSize from "@/components/ColorPickerAndFontSize";
+import ColorPick from "@/components/Color_picker";
 import Image_setting from "@/components/Image_setting";
+import { Button, Form } from "antd";
+import { useForm } from 'react-hook-form';
+import { ImFontSize } from "react-icons/im";
+import { PiLinkLight } from "react-icons/pi";
+import { SlPicture } from "react-icons/sl";
+import { TfiTag } from "react-icons/tfi";
+import { toast } from 'react-toastify';
 
 interface Inputs {
   about_select_box?: boolean;
@@ -36,7 +35,7 @@ export default function UpBanner() {
     })}>
       <div className="md:max-w-4xl mx-auto mt-10">
         <fieldset className="border-slate-600 border-[1px] p-4" >
-          <legend className="text-center p-2">메인페이지 본문 영역 디자인</legend>
+          <legend className="text-center p-2">상단 영역 PC 디자인</legend>
           <div>
             <ul>
               <li className="flex gap-x-4 mb-6">
