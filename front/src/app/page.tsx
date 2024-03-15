@@ -1,15 +1,15 @@
-import Link from "next/link";
+import Navbar from './frontComponents/Navbar';
 
 export default function Home() {
   return (
-    <>
-      <div>Home</div>
-      <Link href='/'>준비중</Link>
-      <br />
-      <br />
-      <br />
-
-      <Link href={'admin'}>관리자 홈페이지 가기</Link>
-    </>
+    <div>
+      <Navbar />
+      <main>메인페이지</main>
+      <footer>
+        <div>푸터1</div>
+        <div>푸터2</div>
+        <div>푸터3</div>
+      </footer>
+    </div>
   );
 }
