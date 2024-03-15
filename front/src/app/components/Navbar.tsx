@@ -107,7 +107,7 @@ const items: MenuProps['items']= [
         label: '모바일 설정',
         children: [
           {
-            label: <Link href={'/admin/design-setting/mobile/up_banner'}>영역별 디자인 설정(Mobile)</Link>,
+            label: <Link href={'/admin/design-setting/mobile/type'}>영역별 디자인 설정(Mobile)</Link>,
             key: 'design_M_M_1',
           },
           {

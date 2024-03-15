@@ -1,7 +1,6 @@
 "use client"
 
 import ColorPickerAndFontSize from "@/components/ColorPickerAndFontSize";
-import ColorPick from "@/components/Color_picker";
 import Image_setting from "@/components/Image_setting";
 import { Button, Form } from "antd";
 import { useForm } from 'react-hook-form';
@@ -87,21 +86,28 @@ export default function DownBanner() {
         </fieldset>
         <div>
           <div className="border border-slate-600 mt-10">
+            <div>
             <div className="flex mt-10 w-48">
-              <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(텍스트,색상,크기)</div>
-              <div>
-                <div className="flex p-10 border border-slate-500 my-4">
-                  <div className="w-60 ">이용약관</div>
-                  <div className="flex gap-4 ">
-                    <div className="w-10">색상</div>
-                    <ColorPick size="small" defaultValue="#f0f0f0" />
-                  </div>
-                </div>
+              <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(텍스트,색상,크기)
               </div>
+                
+            </div>
+            <ColorPickerAndFontSize title="이용약관" input='이용약관' />
+                <ColorPickerAndFontSize title="개인정보취급방침" input='개인정보취급방침' />
+                <ColorPickerAndFontSize title="이메일무단수집거부" input='이메일무단수집거부' />
+                <ColorPickerAndFontSize title="고객지원" input='고객지원' />
+                <ColorPickerAndFontSize title="홈으로" input='홈으로' />
+                <ColorPickerAndFontSize title="로그인" input='로그인' />
+                <ColorPickerAndFontSize title="로그아웃" input='로그아웃' />
+                <ColorPickerAndFontSize title="마이페이지" input='마이페이지' />
+                <ColorPickerAndFontSize title="PC모드" input='PC모드' />
+                <ColorPickerAndFontSize title="전자금융거래" input='전자금융거래' />
             </div>
             <div className="flex mt-10 w-48"> {/* 복사구간 */}
               <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(색상, 크기)</div>
               <div>
+                  <ColorPickerAndFontSize title="글자색상+크기1" />
+                  <ColorPickerAndFontSize title="글자색상+크기2" />
                   <ColorPickerAndFontSize title="카피라이터영문" />
               </div>
             </div>
@@ -109,28 +115,7 @@ export default function DownBanner() {
             <div className="flex mt-10 w-full"> {/* 복사구간 */}
               <div className="w-24 flex-shrink-0 my-auto p-4">이미지설정(링크X)</div>
               <div className="w-auto">
-                <div>
-                  <Image_setting title="카피라이터이미지" recommendSize="455 x 54" />
-                </div>
-                <div>
-                  <Image_setting title="하단로고이미지" recommendSize="226 x 46" />
-                </div>
-                <div>
-                  <Image_setting title="이용약관" recommendSize="47 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="이메일무단수집거부" recommendSize="106 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="개인정보취급방침" recommendSize="93 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="관리자쪽지" recommendSize="57 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="전자금융거래" recommendSize="70 x 11" />
-                </div>
-               
+                  <Image_setting title="카피라이터이미지" recommendSize="424 x 79" />
               </div>
             </div>
             
