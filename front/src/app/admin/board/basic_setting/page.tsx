@@ -19,7 +19,7 @@ interface Inputs {
   board_verticalsize?: number;
 }
 
-export default function MapAPIKEY() {
+export default function BoardBasicSetting() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>({
     defaultValues: {

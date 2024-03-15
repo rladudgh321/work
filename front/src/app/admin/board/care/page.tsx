@@ -1,143 +1,149 @@
 "use client"
 
-import ColorPickerAndFontSize from "@/components/ColorPickerAndFontSize";
-import ColorPick from "@/components/Color_picker";
-import Image_setting from "@/components/Image_setting";
-import { Button, Form } from "antd";
-import { useForm } from 'react-hook-form';
-import { ImFontSize } from "react-icons/im";
-import { PiLinkLight } from "react-icons/pi";
-import { SlPicture } from "react-icons/sl";
-import { TfiTag } from "react-icons/tfi";
-import { toast } from 'react-toastify';
+import type { TableProps } from 'antd';
+import { Button, Table } from 'antd';
+import Link from 'next/link';
+import { PiClipboardTextBold } from "react-icons/pi";
 
-interface Inputs {
-  about_select_box?: boolean;
-  abuout_displayName?: string;
-  about_text?: string;
+interface DataType {
+  key: string;
+  name: string;
+  group_name: string;
+  dbtable_name: string;
+  post_count: number;
+  post_month_count: number;
+  post_today_count: number;
+  display_name: string;
+  tools: any;
 }
 
-export default function DownBanner() {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
-  const InputNumberOnChange = (value: number) => {
-    console.log('changed', value);
-  };
+const columns: TableProps<DataType>['columns'] = [
+  {
+    title: '게시글 이름',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: '그룹명',
+    dataIndex: 'group_name',
+    key: 'group_name',
+  },
+  {
+    title: 'db테이블명',
+    dataIndex: 'dbtable_name',
+    key: 'dbtable_name',
+  },
+  {
+    title: '전체글수',
+    dataIndex: 'post_count',
+    key: 'post_count',
+  },
+  {
+    title: '한달글수',
+    dataIndex: 'post_month_count',
+    key: 'post_month_count',
+  },
+  {
+    title: '오늘글수',
+    dataIndex: 'post_today_count',
+    key: 'post_today_count',
+  },
+  {
+    title: '출력이름',
+    dataIndex: 'display_name',
+    key: 'display_name',
+  },
+  {
+    title: '관리자툴',
+    dataIndex: 'tools',
+    key: 'tools',
+  },
+];
+
+const data: DataType[] = [
+  {
+    key: '1',
+    name: 'John Brown',
+    group_name: 'hi',
+    dbtable_name: 'hi',
+    post_count: 1,
+    post_month_count:1,
+    post_today_count:1,
+    display_name:'hi',
+    tools:<Button.Group>
+      <Button>보기</Button>
+      <Button>수정</Button>
+      <Button>삭제</Button>
+      </Button.Group>
+  },
+  {
+    key: '2',
+    name: 'John Brown',
+    group_name: 'hi',
+    dbtable_name: 'hi',
+    post_count: 1,
+    post_month_count:1,
+    post_today_count:1,
+    display_name:'hi',
+    tools:<Button.Group>
+      <Button>보기</Button>
+      <Button>수정</Button>
+      <Button>삭제</Button>
+      </Button.Group>
+  },
+  {
+    key: '3',
+    name: 'John Brown',
+    group_name: 'hi',
+    dbtable_name: 'hi',
+    post_count: 1,
+    post_month_count:1,
+    post_today_count:1,
+    display_name:'hi',
+    tools:<Button.Group>
+      <Button>보기</Button>
+      <Button>수정</Button>
+      <Button>삭제</Button>
+      </Button.Group>
+  },
+
+];
+
+export default function BoardCare() {
   return (
-    <Form onFinish={handleSubmit(async(data: any) => {
-      try {
-        console.log({ data });
-        toast.success('생성 성공')
-      } catch (err) {
-        console.error(err);
-        toast.error('데이터 저장 오류입니다. 다시 시도해주세요')
-      }
-    })}>
-      <div className="md:max-w-4xl mx-auto mt-10">
-        <fieldset className="border-slate-600 border-[1px] p-4" >
-          <legend className="text-center p-2">하단 영역 디자인</legend>
-          <div>
-            <ul>
-              <li className="flex gap-x-4 mb-6">
-                  <SlPicture className="text-4xl" />
-                <div>
-                  <div className="font-bold">이미지 등록시</div>
-                  <p>
-                  · 기본 등록된 이미지의 권장 이미지 사이즈로 등록하셔야 디자인 깨짐없이 이용이 가능합니다.<br />
-                  · 이미지 교체 외에 디자인을 수정 및 추가하고자 하실 경우 HTML 파일을 직접 수정하셔야 합니다.<br />
-                  · 모바일 이미지는 기존 이미지에서 2배 이상 큰 사이즈의 이미지로 등록하시길 권장합니다. <br />
-                  · JPG, PNG 확장자로 제작 및 등록을 권장합니다.
-                  </p>
-                </div>
-              </li>
-              <li className="flex gap-x-4 mb-6">
-                  <PiLinkLight className="text-4xl" />
-                <div>
-                  <div className="font-bold">링크</div>
-                  <p>
-                  · 링크 입력시 도메인을 제외한 상대경로로 등록하시기 바랍니다.<br />
-                    (예: http://도메인/html_file.php?file=sitemap.html)
-                  </p>
-                </div>
-              </li>
-              <li className="flex gap-x-4 mb-6">
-                  <ImFontSize className="text-4xl" />
-                <div>
-                  <div className="font-bold">색상 및 글자색상, 글자크기</div>
-                  <p>
-                  · 글자 크기를 변경하실 경우 사이트의 디자인이 깨져보일 수 있으니 유의하시기 바랍니다.<br />
-                  · 메뉴 및 페이지 설정시 메뉴명 출력방식을 이미지메이커나 이미지로 설정할 경우
-                  본 설정은 적용되지 않습니다. <br />
-                  · 색상 및 글자색상은 웹색상표준코드로 등록하시기 바랍니다. (예:#FF0000)<br />
-                  </p>
-                </div>
-              </li>
-              <li className="flex gap-x-4 mb-6">
-                  <TfiTag className="text-4xl" />
-                <div>
-                  <div className="font-bold">출력태그 이용방법</div>
-                  <p>
-                  · <span className="font-bold">출력태그</span>는 각 설정화면 우측에 표시된 출력태그를 HTML 파일에 삽입하여 이용이 가능합니다.<br />
-                  · <span className="font-bold">출력태그</span>는 각 항목별 용도에 맞게 적용하셔야 합니다. 
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </fieldset>
-        <div>
-          <div className="border border-slate-600 mt-10">
-            <div className="flex mt-10 w-48">
-              <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(색상)</div>
-              <div>
-                <div className="flex p-10 border border-slate-500 my-4">
-                  <div className="w-60 ">배경색상</div>
-                  <div className="flex gap-4 ">
-                    <div className="w-10">색상</div>
-                    <ColorPick size="small" defaultValue="#f0f0f0" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex mt-10 w-48"> {/* 복사구간 */}
-              <div className="w-24 flex-shrink-0 my-auto p-4">타이틀 문구 설정(색상, 크기)</div>
-              <div>
-                  <ColorPickerAndFontSize title="카피라이터영문" />
-              </div>
-            </div>
-            
-            <div className="flex mt-10 w-full"> {/* 복사구간 */}
-              <div className="w-24 flex-shrink-0 my-auto p-4">이미지설정(링크X)</div>
-              <div className="w-auto">
-                <div>
-                  <Image_setting title="카피라이터이미지" recommendSize="455 x 54" />
-                </div>
-                <div>
-                  <Image_setting title="하단로고이미지" recommendSize="226 x 46" />
-                </div>
-                <div>
-                  <Image_setting title="이용약관" recommendSize="47 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="이메일무단수집거부" recommendSize="106 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="개인정보취급방침" recommendSize="93 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="관리자쪽지" recommendSize="57 x 11" />
-                </div>
-                <div>
-                  <Image_setting title="전자금융거래" recommendSize="70 x 11" />
-                </div>
-               
-              </div>
-            </div>
-            
-          </div>
-          <div className="flex justify-center"><Button className="btn mt-5" htmlType="submit">저장하기</Button></div>
+    <div className="my-5">
+      <div className="flex justify-between">
+        <div className="flex gap-x-3">
+          <div className="my-auto mr-2"><PiClipboardTextBold /></div>
+          <div className="my-auto">전체게시판 관리</div>
+          <Link href={`/admin/board/register`}><button className='btn w-5'>게시판 등록</button></Link>
         </div>
+        <Button>더보기</Button>
       </div>
-    </Form>
+      <Table columns={columns} dataSource={data} pagination={false} />
+    </div>
   );
 }
+
+/**
+ * 
+ * <div className="flex">
+        <div>로고</div>
+        <div className="text-xl">최근 문의내역 현황</div>
+        <Button className="float-right">더보기</Button>
+      </div>
+      <div className="bg-slate-800 text-slate-100 rounded-md p-4 flex text-center">
+        <div className="grow-[2]">접수정보</div>
+        <div className="grow-[1]">접수일</div>
+        <div className="grow-[1]">처리상태</div>
+        <div className="grow-[1]">관리자툴</div>
+      </div>
+      <div className="p-4 flex">
+        <div className="grow-[2] border-slate-400 border-[1px]">건축상담</div>
+        <div className="grow-[1] border-slate-400 border-[1px]">2024-02-23</div>
+        <div className="grow-[1] border-slate-400 border-[1px]">접수중</div>
+        <div className="grow-[1] border-slate-400 border-[1px]">보기</div>
+      </div>
+    </div>
+ * 
+ */
