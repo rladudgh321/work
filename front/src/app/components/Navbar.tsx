@@ -127,9 +127,45 @@ const items: MenuProps['items']= [
     ],
   },
   {
-    label: '게시판설정',
+    label: '게시판 설정',
     key: 'board',
     icon: <SettingOutlined />,
+    children: [
+      {
+        type: 'group',
+        label: '게시판 설정',
+        children: [
+          {
+            label: <Link href={`/admin/board/basic_setting`}>게시판 기본 설정</Link>,
+            key: 'board_1',
+          },
+          {
+            label: <Link href={`/admin/board/care`}>게시판 관리</Link>,
+            key: 'board_2',
+          },
+          {
+            label: <Link href={`/admin/board/register`}>게시판 등록</Link>,
+            key: 'board_3',
+          },
+          {
+            label: <Link href={`/admin/board/img`}>아이콘 및 관련이미지 설정</Link>,
+            key: 'board_4',
+          },
+          {
+            label: <Link href={`/admin/board/postcare`}>게시글 관리</Link>,
+            key: 'board_5',
+          },
+          {
+            label: <Link href={`/admin/board/commentcare`}>댓글 관리</Link>,
+            key: 'board_6',
+          },
+          {
+            label: <Link href={`/admin/board/commentimg`}>게시글 댓글 아이콘 관리</Link>,
+            key: 'board_7',
+          },
+        ],
+      },
+    ],
   },
   {
     label: '문의관리',

@@ -9,3 +9,7 @@
 .btn_type {
   @apply bg-green-500 block mx-auto w-72 h-12 rounded-lg text-slate-100 font-extrabold text-lg mb-4
 }
+
+.input {
+  @apply w-full border rounded-lg p-2 focus:border-sky-400 focus:outline-none hover:border-sky-400
+}
