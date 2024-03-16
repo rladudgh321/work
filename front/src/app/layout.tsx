@@ -23,9 +23,6 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-        {/* <NextProvider>
-          <NextLayout>{children}</NextLayout>
-        </NextProvider> */}
       </body>
     </html>
   );

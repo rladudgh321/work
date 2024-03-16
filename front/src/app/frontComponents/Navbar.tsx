@@ -50,12 +50,7 @@ export default function Navbar() {
   // };
 
   return (
-    <div className="mb-3">
-      <div className="flex flex-row-reverse gap-x-2">
-          <Button shape="round" size="small" className="text-[10px]">사이트 돌아가기</Button>
-          <Button shape="round" danger={true} size="small" className="text-[10px]" >로그아웃</Button>
-      </div>
-      <div className="flex mt-0">
+      <div className="flex my-4">
         <div className="text-center py-2 px-4 shrink-0 border-gray-800 border-solid border-[1px] my-auto mx-4 bg-gray-600 text-gray-50 font-semibold rounded-md">
           그린농장
         </div>
@@ -73,6 +68,5 @@ export default function Navbar() {
           <Menu mode="horizontal" items={items} className="w-full justify-between" />
         </ConfigProvider>
       </div>
-    </div>
   );
 };
