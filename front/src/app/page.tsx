@@ -1,15 +1,15 @@
-import Navbar from './frontComponents/Navbar';
+import Contact from './frontComponents/Contact';
+import Grid from './frontComponents/Grid';
+import Main_1_intro from './frontComponents/Main_1_intro';
+import MainPage from './frontComponents/main';
 
 export default function Home() {
   return (
     <div>
-      <Navbar />
-      <main>메인페이지</main>
-      <footer>
-        <div>푸터1</div>
-        <div>푸터2</div>
-        <div>푸터3</div>
-      </footer>
+      <MainPage />
+      <Main_1_intro />
+      <Grid />
+      <Contact />
     </div>
   );
 }

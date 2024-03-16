@@ -50,7 +50,7 @@ export default function Navbar() {
   // };
 
   return (
-    <div>
+    <div className="mb-3">
       <div className="flex flex-row-reverse gap-x-2">
           <Button shape="round" size="small" className="text-[10px]">사이트 돌아가기</Button>
           <Button shape="round" danger={true} size="small" className="text-[10px]" >로그아웃</Button>
@@ -64,12 +64,13 @@ export default function Navbar() {
             token: {
               /* here is your global tokens */
               fontSize:12,
-              padding: 10
+              padding: 10,
+              
             },
           }}
         >
           {/* <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} className="w-10/12" /> */}
-          <Menu mode="horizontal" items={items} className="w-10/12" />
+          <Menu mode="horizontal" items={items} className="w-full justify-between" />
         </ConfigProvider>
       </div>
     </div>
