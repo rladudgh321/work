@@ -31,7 +31,7 @@ export default function Contact() {
                     toast.error('데이터 저장 오류입니다. 다시 시도해주세요')
                   }
                 })} />
-            </div>
+            </div> 
             </div>
     </div>
   );
